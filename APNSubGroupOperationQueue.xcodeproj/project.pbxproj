@@ -59,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = APNSubGroupOperationQueue.podspec; sourceTree = "<group>"; };
 		0A9DED791CA7513A00E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DED861CA7515800E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DED931CA7516700E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +181,7 @@
 		0A9DEDE81CA83B6500E81AEA /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */,
 				0A9DEDEA1CA83B7400E81AEA /* LICENSE */,
 			);
 			name = Metadata;
