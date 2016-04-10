@@ -1,0 +1,24 @@
+language: objective-c
+osx_image: xcode7.3
+env:
+  matrix:
+  - PLATFORM="iOS"
+  - PLATFORM="macOS"
+  - PLATFORM="tvOS"
+  - PLATFORM="watchOS"
+script:
+- make $PLATFORM
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive APNSubGroupOperationQueue
+deploy:
+  provider: releases
+  api_key:
+    secure: mi5Wd7bqvnMDaS5OqMe8P7HApAmGscDMfjJlZ4K/WJ2NiVYiNAiGAn3p7O4Tq4LtGILuAfAA/+BqdA3VvC2qd+E9XcDPc0nXGwFMAiUGxwIP3a++wTuTuN4hambN+DI1EaxWAhNIBxWeo83zF0fwtXdItyWipB4ETNskFbTqFC0hGtJfdLyxKstXTzaRFQWoQgOgu4PNpILNX8u/5dj1ErR7FYBoiAQkPsT74CVSFYjrXFVE0WkJ9qnsjex0KtaeNNb57P/QEWrX3SMMcAe1qhVuTRKwXk633ji4FyyxER/DZ7x+x+OKDN9vu4LMG9LD0LggdzId7GPvRTbxSVZvcJNuGGnmX65JvN1LmAxlwqPLwVTQYz9UFozxVt2dxsD24Sa1B2PHf9CB83giHvYLSSwGRQcwHLNYLlnEHAfG2apEPm/dFQe76Ni4WR3UNWYfOnewXBApJ36xpENPCY2xJknKfMDh43F0xQJ/Sy7NCGxLnxsdA6zMI718NHLMZ7SfutaLaOl3NBqoK4yg+XYiI5rT/4xliE5nJl+J4ZHzSM/nInLqDj0ZBMIA2ka6pIWxDHC7zAuFm1bpFAC74G40ui9SzQuAemn1kGA3JRbHvflL7lqIcnjPa3yv2EKgGXiChnJXsetorhw0/NvrlStJURgkr27dR4jRVf+k/U2NkJ4=
+  file: APNSubGroupOperationQueue.framework.zip
+  skip_cleanup: true
+  on:
+    repo: p4checo/APNSubGroupOperationQueue
+    tags: true
