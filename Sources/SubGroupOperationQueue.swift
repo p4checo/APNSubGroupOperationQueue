@@ -64,6 +64,8 @@ public class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
     override public init() {
         queue = dispatch_queue_create("com.p4checo.\(self.dynamicType).queue", DISPATCH_QUEUE_SERIAL)
         subGroups = [:]
+        
+        super.init()
     }
     
     // MARK: - Public
@@ -201,8 +203,10 @@ public class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
                     return
                 }
                 
+                self.subGroups[key] = subGroup.count == 2 ? nil : {
                     subGroup.removeFirst(2)
-                self.subGroups[key] = subGroup
+                    return subGroup
+                }()
             }
         })
         

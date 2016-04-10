@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
                 return;
             }
 
-            NSMutableArray<NSOperation *> *subGroup = [self.subGroups[key] mutableCopy];
+            NSArray<NSOperation *> *subGroup = self.subGroups[key];
 
             NSAssert(subGroup, @"💥: A subgroup must exist in the dicionary for the finished operation's key!");
             NSAssert([op isEqual:subGroup[0]],
@@ -178,8 +178,11 @@ NS_ASSUME_NONNULL_BEGIN
             NSAssert([strongCompletionOp isEqual:subGroup[1]],
                      @"💥: completionOp must be the second element in the subgroup's array");
 
-            [subGroup removeObjectsInRange:NSMakeRange(0, 2)];
-            self.subGroups[key] = [subGroup copy];
+            self.subGroups[key] = subGroup.count == 2 ? nil : ({
+                NSMutableArray<NSOperation *> *newSubGroup = [subGroup mutableCopy];
+                [newSubGroup removeObjectsInRange:NSMakeRange(0, 2)];
+                [newSubGroup copy];
+            });
         });
     }];
 
