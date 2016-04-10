@@ -114,6 +114,10 @@ let package = Package(
 3. Link your target against APNSubGroupOperationQueue.framework of your platform.
 4. If linking againts an Application target, ensure the framework gets copied into the bundle. If linking against a Framework target, the application linking to it should also include APNSubGroupOperationQueue.
 
+## Contributing
+
+See [CONTRIBUTING](https://github.com/p4checo/APNSubGroupOperationQueue/blob/master/CONTRIBUTING.md).
+
 ## Future work
 
 Use a simpler (and faster) synchronization mechanism like a SpinLock when a safe one one becomes available for iOS. Sources: [[1]](http://engineering.postmates.com/Spinlocks-Considered-Harmful-On-iOS/) [[2]](https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151214/000321.html)
