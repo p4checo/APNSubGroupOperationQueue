@@ -59,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A15BE5F1CBAD28C00D6E3DB /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0A1FE5C01CBA9C2600FFAA96 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0A1FE5C11CBAA4E600FFAA96 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 				0A1FE5C01CBA9C2600FFAA96 /* README.md */,
 				0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */,
 				0A1FE5C11CBAA4E600FFAA96 /* Makefile */,
+				0A15BE5F1CBAD28C00D6E3DB /* Package.swift */,
 				0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */,
 				0A9DEDEA1CA83B7400E81AEA /* LICENSE */,
 			);

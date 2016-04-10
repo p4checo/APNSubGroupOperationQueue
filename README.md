@@ -94,7 +94,18 @@ github "p4checo/APNSubGroupOperationQueue" ~> 1.0.0
 
 ### Swift Package Manager
 
-TODO
+Add APNSubGroupOperationQueue to your `Package.swift`:
+
+```swift
+import PackageDescription
+
+let package = Package(
+  name: "HelloWorld",
+  dependencies: [
+    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 1),
+  ]
+)
+```
 
 ### git Submodule
 
