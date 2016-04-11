@@ -416,7 +416,6 @@ typedef void (^APNAppendingBlock)(void);
 
     for (NSString *s in strings) {
         [blocks addObject:^{
-            NSLog(@"APPENDING '%@'", s);
             [result appendString:s];
         }];
     }

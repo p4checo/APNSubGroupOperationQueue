@@ -25,7 +25,17 @@
 
 #import "SubGroupOperationQueue.h"
 
-#import <APNSubGroupOperationQueue/APNSubGroupOperationQueue-Swift.h>
+#pragma mark -
+#pragma mark APNCompletionOperation
+
+@interface APNCompletionOperation : NSBlockOperation
+@end
+
+@implementation APNCompletionOperation
+@end
+
+#pragma mark -
+#pragma mark APNSubGroupOperationQueue
 
 @interface APNSubGroupOperationQueue ()
 

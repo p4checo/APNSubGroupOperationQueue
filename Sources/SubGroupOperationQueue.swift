@@ -25,8 +25,18 @@
 
 import Foundation
 
-@objc(APNCompletionOperation)
-public class CompletionOperation: NSBlockOperation {}
+/**
+ `CompletionOperation` is an `NSBlockOperation` subclass which is used internally by the `SubGroupOperationQueue` to 
+ remove completed operations from the subgroup dictionary.
+ 
+ For each operation submitted by the user to the queue, a `CompletionOperation` which depends on it is created 
+ containing the logic to cleanup the subgroup dictionary. By doing this, the operation's `completionBlock` doesn't have 
+ to be used, allowing the user full control over the operation, without introducing possible side-effects.
+ 
+ These operations aren't returned by either `subscript` or `subGroupOperations` even though they technically are in the 
+ subgroup.
+ */
+private class CompletionOperation: NSBlockOperation {}
 
 /** 
  `SubGroupOperationQueue` is an `NSOperation` subclass which allows scheduling operations in serial subgroups inside
