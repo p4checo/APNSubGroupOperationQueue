@@ -36,7 +36,7 @@ import Foundation
  These operations aren't returned by either `subscript` or `subGroupOperations` even though they technically are in the 
  subgroup.
  */
-private class CompletionOperation: NSBlockOperation {}
+private final class CompletionOperation: NSBlockOperation {}
 
 /** 
  `SubGroupOperationQueue` is an `NSOperation` subclass which allows scheduling operations in serial subgroups inside
@@ -46,7 +46,7 @@ private class CompletionOperation: NSBlockOperation {}
  operations which are pending and executing. Finished `NSOperation`s are automatically removed from the subgroup after 
  completion.
 */
-public class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
+public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
     
     private let queue: dispatch_queue_t
     private var subGroups: [Key : [NSOperation]]
