@@ -49,7 +49,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.queue = dispatch_queue_create("com.p4checo.APNSubGroupOperationQueue.queue", DISPATCH_QUEUE_SERIAL);
+        self.queue = dispatch_queue_create("com.p4checo.APNSubGroupOperationQueue.queue", DISPATCH_QUEUE_CONCURRENT);
         self.subGroups = [NSMutableDictionary new];
     }
     return self;
@@ -67,7 +67,7 @@
 
     __block NSArray<NSOperation *> *opPair;
 
-    dispatch_sync(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         NSArray<NSOperation *> *subGroup = self.subGroups[key] ?: @[];
 
         APNCompletionOperation *competionOp = [self addDependenciesOnOperation:op withKey:key inSubGroup:subGroup];
@@ -86,7 +86,7 @@
 
     __block NSMutableArray<NSOperation *> *newOps = [NSMutableArray array];
 
-    dispatch_sync(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         NSMutableArray<NSOperation *> *subGroup = [self.subGroups[key] ?: @[] mutableCopy];
 
         for (NSOperation *op in ops) {
@@ -172,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(completionOp) weakCompletionOp = completionOp;
 
     [completionOp addExecutionBlock:^{
-        dispatch_async(self.queue, ^(void) {
+        dispatch_barrier_sync(self.queue, ^(void) {
             __strong typeof(weakCompletionOp) strongCompletionOp = weakCompletionOp;
 
             if (!strongCompletionOp) {

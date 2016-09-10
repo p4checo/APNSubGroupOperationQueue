@@ -72,7 +72,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      - returns: A new `SubGroupOperationQueue` instance.
      */
     override public init() {
-        queue = dispatch_queue_create("com.p4checo.\(self.dynamicType).queue", DISPATCH_QUEUE_SERIAL)
+        queue = dispatch_queue_create("com.p4checo.\(self.dynamicType).queue", DISPATCH_QUEUE_CONCURRENT)
         subGroups = [:]
         
         super.init()
@@ -92,7 +92,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
     public func addOperation(op: NSOperation, key: Key) {
         var opPair = [NSOperation]()
         
-        dispatch_sync(queue) {
+        dispatch_barrier_sync(queue) {
             var subGroup = self.subGroups[key] ?? []
             let completionOp = self.addOperationDependencies(op, key: key, subGroup: subGroup)
             opPair = [op, completionOp]
@@ -119,7 +119,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
     public func addOperations(ops: [NSOperation], key: Key, waitUntilFinished wait: Bool) {
         var newOps = [NSOperation]()
         
-        dispatch_sync(queue) {
+        dispatch_barrier_sync(queue) {
             var subGroup = self.subGroups[key] ?? []
             
             ops.forEach { op in
@@ -197,7 +197,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
         let completionOp = CompletionOperation()
         
         completionOp.addExecutionBlock({ [weak weakCompletionOp = completionOp] in
-            dispatch_async(self.queue) {
+            dispatch_barrier_sync(self.queue) {
                 guard let completionOp = weakCompletionOp else {
                     assertionFailure("💥: The completion operation must not be nil")
                     return
