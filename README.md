@@ -6,7 +6,7 @@
 [![codecov.io](https://codecov.io/github/p4checo/APNSubGroupOperationQueue/coverage.svg?branch=master)](https://codecov.io/github/p4checo/APNSubGroupOperationQueue?branch=master)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/APNSubGroupOperationQueue.svg)](https://cocoapods.org/)
-[![Swift 2.0](https://img.shields.io/badge/Swift-2.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
 Swift & Obj-C µFramework consisting of `NSOperationQueue` subclasses which allow scheduling operations in serial subgroups inside concurrent queues.
 
@@ -29,20 +29,20 @@ let subGroupQueue = SubGroupOperationQueue<String>()
 // schedule operations in subgroups "A", "B" and "C"
 // these will run serially inside each subgroup, but concurrently with other subgroups' operations
 
-subGroupQueue.addOperation(opA1, key: "A")
-subGroupQueue.addOperation(opA2, key: "A")
-subGroupQueue.addOperation(opA3, key: "A")
+subGroupQueue.addOperation(opA1, withKey: "A")
+subGroupQueue.addOperation(opA2, withKey: "A")
+subGroupQueue.addOperation(opA3, withKey: "A")
 
-subGroupQueue.addOperations([opB1, opB2, opB3], key: "B")
+subGroupQueue.addOperations([opB1, opB2, opB3], withKey: "B")
 
-subGroupQueue.addOperationWithBlock({ /* opC1 */ }, key: "C")
-subGroupQueue.addOperationWithBlock({ /* opC2 */ }, key: "C")
-subGroupQueue.addOperationWithBlock({ /* opC3 */ }, key: "C")
+subGroupQueue.addOperation({ /* opC1 */ }, withKey: "C")
+subGroupQueue.addOperation({ /* opC2 */ }, withKey: "C")
+subGroupQueue.addOperation({ /* opC3 */ }, withKey: "C")
 
 // query current subgroup's operations (a snapshot)
 let aOps = subGroupQueue["A"]
 let bOps = subGroupQueue["B"]
-let cOps = subGroupQueue.subGroupOperations("C")
+let cOps = subGroupQueue.subGroupOperations(forKey: "C")
 ```
 
 ### Objective-C
@@ -80,7 +80,7 @@ Add APNSubGroupOperationQueue to your `Podfile` and run `pod install`:
 
 ```ruby
 # CocoaPods
-pod 'APNSubGroupOperationQueue', '~> 1.0.0'
+pod 'APNSubGroupOperationQueue', '~> 2.0'
 ```
 
 ### Carthage
@@ -89,7 +89,7 @@ Add APNSubGroupOperationQueue to your `Cartfile` (package dependency) or `Cartfi
 (development dependency):
 
 ```
-github "p4checo/APNSubGroupOperationQueue" ~> 1.0.0
+github "p4checo/APNSubGroupOperationQueue" ~> 2.0
 ```
 
 ### Swift Package Manager
@@ -102,7 +102,7 @@ import PackageDescription
 let package = Package(
   name: "HelloWorld",
   dependencies: [
-    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 1),
+    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 2),
   ]
 )
 ```
