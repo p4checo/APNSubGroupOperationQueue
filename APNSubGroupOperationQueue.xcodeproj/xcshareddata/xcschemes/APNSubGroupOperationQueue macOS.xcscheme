@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A9DEDAC1CA7540A00E81AEA"
                BuildableName = "APNSubGroupOperationQueue.framework"
-               BlueprintName = "APNSubGroupOperationQueue OS X"
+               BlueprintName = "APNSubGroupOperationQueue macOS"
                ReferencedContainer = "container:APNSubGroupOperationQueue.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,8 +34,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A9DEDD91CA8353200E81AEA"
-               BuildableName = "APNSubGroupOperationQueue OSXTests.xctest"
-               BlueprintName = "APNSubGroupOperationQueue OSXTests"
+               BuildableName = "APNSubGroupOperationQueue macOSTests.xctest"
+               BlueprintName = "APNSubGroupOperationQueue macOSTests"
                ReferencedContainer = "container:APNSubGroupOperationQueue.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -45,7 +45,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A9DEDAC1CA7540A00E81AEA"
             BuildableName = "APNSubGroupOperationQueue.framework"
-            BlueprintName = "APNSubGroupOperationQueue OS X"
+            BlueprintName = "APNSubGroupOperationQueue macOS"
             ReferencedContainer = "container:APNSubGroupOperationQueue.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -67,7 +67,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A9DEDAC1CA7540A00E81AEA"
             BuildableName = "APNSubGroupOperationQueue.framework"
-            BlueprintName = "APNSubGroupOperationQueue OS X"
+            BlueprintName = "APNSubGroupOperationQueue macOS"
             ReferencedContainer = "container:APNSubGroupOperationQueue.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -85,7 +85,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A9DEDAC1CA7540A00E81AEA"
             BuildableName = "APNSubGroupOperationQueue.framework"
-            BlueprintName = "APNSubGroupOperationQueue OS X"
+            BlueprintName = "APNSubGroupOperationQueue macOS"
             ReferencedContainer = "container:APNSubGroupOperationQueue.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
