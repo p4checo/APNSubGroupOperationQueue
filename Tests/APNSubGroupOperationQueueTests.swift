@@ -38,7 +38,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         subGroupQueue.isSuspended = true
         
-        ops.forEach { subGroupQueue.addOperation($0, key: key) }
+        ops.forEach { subGroupQueue.addOperation($0, withKey: key) }
         
         subGroupQueue.isSuspended = false
         
@@ -60,24 +60,24 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
-        subGroupQueue.addOperation(opsA[0], key: keyA)
-        subGroupQueue.addOperation(opsB[0], key: keyB)
-        subGroupQueue.addOperation(opsC[0], key: keyC)
-        subGroupQueue.addOperation(opsA[1], key: keyA)
-        subGroupQueue.addOperation(opsB[1], key: keyB)
-        subGroupQueue.addOperation(opsB[2], key: keyB)
-        subGroupQueue.addOperation(opsA[2], key: keyA)
-        subGroupQueue.addOperation(opsC[1], key: keyC)
-        subGroupQueue.addOperation(opsC[2], key: keyC)
-        subGroupQueue.addOperation(opsA[3], key: keyA)
-        subGroupQueue.addOperation(opsB[3], key: keyB)
-        subGroupQueue.addOperation(opsA[4], key: keyA)
-        subGroupQueue.addOperation(opsC[3], key: keyC)
-        subGroupQueue.addOperation(opsB[4], key: keyB)
-        subGroupQueue.addOperation(opsC[4], key: keyC)
-        subGroupQueue.addOperation(opsA[5], key: keyA)
-        subGroupQueue.addOperation(opsB[5], key: keyB)
-        subGroupQueue.addOperation(opsC[5], key: keyC)
+        subGroupQueue.addOperation(opsA[0], withKey: keyA)
+        subGroupQueue.addOperation(opsB[0], withKey: keyB)
+        subGroupQueue.addOperation(opsC[0], withKey: keyC)
+        subGroupQueue.addOperation(opsA[1], withKey: keyA)
+        subGroupQueue.addOperation(opsB[1], withKey: keyB)
+        subGroupQueue.addOperation(opsB[2], withKey: keyB)
+        subGroupQueue.addOperation(opsA[2], withKey: keyA)
+        subGroupQueue.addOperation(opsC[1], withKey: keyC)
+        subGroupQueue.addOperation(opsC[2], withKey: keyC)
+        subGroupQueue.addOperation(opsA[3], withKey: keyA)
+        subGroupQueue.addOperation(opsB[3], withKey: keyB)
+        subGroupQueue.addOperation(opsA[4], withKey: keyA)
+        subGroupQueue.addOperation(opsC[3], withKey: keyC)
+        subGroupQueue.addOperation(opsB[4], withKey: keyB)
+        subGroupQueue.addOperation(opsC[4], withKey: keyC)
+        subGroupQueue.addOperation(opsA[5], withKey: keyA)
+        subGroupQueue.addOperation(opsB[5], withKey: keyB)
+        subGroupQueue.addOperation(opsC[5], withKey: keyC)
         
         subGroupQueue.isSuspended = false
         
@@ -98,7 +98,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         let ops = stringAppendingBlockOperations(splitString(string), sharedBox: result)
         
-        subGroupQueue.addOperations(ops, key: key, waitUntilFinished: true)
+        subGroupQueue.addOperations(ops, withKey: key, waitUntilFinished: true)
         
         XCTAssert(subGroupQueue[key].count == 0)
         XCTAssert(result.value == string, "\(result) didn't match expected value \(string)")
@@ -115,9 +115,9 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         subGroupQueue.isSuspended = true
         
-        subGroupQueue.addOperations(opsA, key: keyA, waitUntilFinished: false)
-        subGroupQueue.addOperations(opsB, key: keyB, waitUntilFinished: false)
-        subGroupQueue.addOperations(opsC, key: keyC, waitUntilFinished: false)
+        subGroupQueue.addOperations(opsA, withKey: keyA, waitUntilFinished: false)
+        subGroupQueue.addOperations(opsB, withKey: keyB, waitUntilFinished: false)
+        subGroupQueue.addOperations(opsC, withKey: keyC, waitUntilFinished: false)
         
         subGroupQueue.isSuspended = false
         
@@ -131,7 +131,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         XCTAssert(resultC.value == stringC, "\(resultC.value) didn't match expected value \(stringC)")
     }
     
-    // MARK: - addOperationWithBlock
+    // MARK: - addOperation
     
     func testAddOperationWithBlock_withSingleGroup_mustExecuteSerially() {
         let (key, string, result) = ("key", "123456", Box<String>(""))
@@ -140,7 +140,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         subGroupQueue.isSuspended = true
         
-        blocks.forEach { subGroupQueue.addOperationWithBlock($0, key: key) }
+        blocks.forEach { subGroupQueue.addOperation($0, withKey: key) }
         
         subGroupQueue.isSuspended = false
         
@@ -162,24 +162,24 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
-        subGroupQueue.addOperationWithBlock(blocksA[0], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[0], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksC[0], key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksA[1], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[1], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksB[2], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksA[2], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksC[1], key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksC[2], key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksA[3], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[3], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksA[4], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksC[3], key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksB[4], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksC[4], key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksA[5], key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[5], key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksC[5], key: keyC)
+        subGroupQueue.addOperation(blocksA[0], withKey: keyA)
+        subGroupQueue.addOperation(blocksB[0], withKey: keyB)
+        subGroupQueue.addOperation(blocksC[0], withKey: keyC)
+        subGroupQueue.addOperation(blocksA[1], withKey: keyA)
+        subGroupQueue.addOperation(blocksB[1], withKey: keyB)
+        subGroupQueue.addOperation(blocksB[2], withKey: keyB)
+        subGroupQueue.addOperation(blocksA[2], withKey: keyA)
+        subGroupQueue.addOperation(blocksC[1], withKey: keyC)
+        subGroupQueue.addOperation(blocksC[2], withKey: keyC)
+        subGroupQueue.addOperation(blocksA[3], withKey: keyA)
+        subGroupQueue.addOperation(blocksB[3], withKey: keyB)
+        subGroupQueue.addOperation(blocksA[4], withKey: keyA)
+        subGroupQueue.addOperation(blocksC[3], withKey: keyC)
+        subGroupQueue.addOperation(blocksB[4], withKey: keyB)
+        subGroupQueue.addOperation(blocksC[4], withKey: keyC)
+        subGroupQueue.addOperation(blocksA[5], withKey: keyA)
+        subGroupQueue.addOperation(blocksB[5], withKey: keyB)
+        subGroupQueue.addOperation(blocksC[5], withKey: keyC)
         
         subGroupQueue.isSuspended = false
         
@@ -202,15 +202,15 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         subGroupQueue.isSuspended = true
         
-        subGroupQueue.addOperation(BlockOperation(block: blocks[0]), key: key)
-        subGroupQueue.addOperation(BlockOperation(block: blocks[1]), key: key)
+        subGroupQueue.addOperation(BlockOperation(block: blocks[0]), withKey: key)
+        subGroupQueue.addOperation(BlockOperation(block: blocks[1]), withKey: key)
         
-        subGroupQueue.addOperationWithBlock(blocks[2], key: key)
-        subGroupQueue.addOperationWithBlock(blocks[3], key: key)
+        subGroupQueue.addOperation(blocks[2], withKey: key)
+        subGroupQueue.addOperation(blocks[3], withKey: key)
         
         let op5 = BlockOperation(block: blocks[4])
         let op6 = BlockOperation(block: blocks[5])
-        subGroupQueue.addOperations([op5, op6], key: key, waitUntilFinished: false)
+        subGroupQueue.addOperations([op5, op6], withKey: key, waitUntilFinished: false)
         
         subGroupQueue.isSuspended = false
         
@@ -241,21 +241,21 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
-        subGroupQueue.addOperation(BlockOperation(block: blocksA[0]), key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[0], key: keyB)
-        subGroupQueue.addOperations([opC1, opC2], key: keyC, waitUntilFinished: false)
-        subGroupQueue.addOperation(BlockOperation(block: blocksA[1]), key: keyA)
-        subGroupQueue.addOperationWithBlock(blocksB[1], key: keyB)
-        subGroupQueue.addOperations([opB3, opB4], key: keyB, waitUntilFinished: false)
-        subGroupQueue.addOperationWithBlock(blocksA[2], key: keyA)
-        subGroupQueue.addOperation(BlockOperation(block: blocksC[2]), key: keyC)
-        subGroupQueue.addOperationWithBlock(blocksA[3], key: keyA)
-        subGroupQueue.addOperations([opA5, opA6], key: keyA, waitUntilFinished: false)
-        subGroupQueue.addOperation(BlockOperation(block: blocksC[3]), key: keyC)
-        subGroupQueue.addOperation(BlockOperation(block: blocksB[4]), key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksC[4], key: keyC)
-        subGroupQueue.addOperation(BlockOperation(block: blocksB[5]), key: keyB)
-        subGroupQueue.addOperationWithBlock(blocksC[5], key: keyC)
+        subGroupQueue.addOperation(BlockOperation(block: blocksA[0]), withKey: keyA)
+        subGroupQueue.addOperation(blocksB[0], withKey: keyB)
+        subGroupQueue.addOperations([opC1, opC2], withKey: keyC, waitUntilFinished: false)
+        subGroupQueue.addOperation(BlockOperation(block: blocksA[1]), withKey: keyA)
+        subGroupQueue.addOperation(blocksB[1], withKey: keyB)
+        subGroupQueue.addOperations([opB3, opB4], withKey: keyB, waitUntilFinished: false)
+        subGroupQueue.addOperation(blocksA[2], withKey: keyA)
+        subGroupQueue.addOperation(BlockOperation(block: blocksC[2]), withKey: keyC)
+        subGroupQueue.addOperation(blocksA[3], withKey: keyA)
+        subGroupQueue.addOperations([opA5, opA6], withKey: keyA, waitUntilFinished: false)
+        subGroupQueue.addOperation(BlockOperation(block: blocksC[3]), withKey: keyC)
+        subGroupQueue.addOperation(BlockOperation(block: blocksB[4]), withKey: keyB)
+        subGroupQueue.addOperation(blocksC[4], withKey: keyC)
+        subGroupQueue.addOperation(BlockOperation(block: blocksB[5]), withKey: keyB)
+        subGroupQueue.addOperation(blocksC[5], withKey: keyC)
         
         subGroupQueue.isSuspended = false
         
@@ -278,17 +278,17 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         subGroupQueue.isSuspended = true
         
-        subGroupQueue.addOperation(ops[0], key: key)
-        XCTAssert(subGroupQueue.subGroupOperations(key) == Array(ops[0..<1]))
+        subGroupQueue.addOperation(ops[0], withKey: key)
+        XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<1]))
         
-        subGroupQueue.addOperation(ops[1], key: key)
-        XCTAssert(subGroupQueue.subGroupOperations(key) == Array(ops[0..<2]))
+        subGroupQueue.addOperation(ops[1], withKey: key)
+        XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<2]))
         
-        subGroupQueue.addOperation(ops[2], key: key)
-        XCTAssert(subGroupQueue.subGroupOperations(key) == Array(ops[0..<3]))
+        subGroupQueue.addOperation(ops[2], withKey: key)
+        XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<3]))
         
-        subGroupQueue.addOperations(Array(ops[3...5]), key: key, waitUntilFinished: false)
-        XCTAssert(subGroupQueue.subGroupOperations(key) == ops)
+        subGroupQueue.addOperations(Array(ops[3...5]), withKey: key, waitUntilFinished: false)
+        XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == ops)
         
         XCTAssert(subGroupQueue[key].count == 6)
     }
@@ -296,7 +296,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
     func testSubGroupOperations_withNonExistingSubGroupOperations_shouldReturnEmptyArray() {
         let key = "key"
         
-        XCTAssert(subGroupQueue.subGroupOperations(key) == [])
+        XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == [])
         XCTAssert(subGroupQueue[key].count == 0)
     }
     
