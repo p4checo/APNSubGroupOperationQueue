@@ -22,7 +22,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         super.setUp()
         
         subGroupQueue = SubGroupOperationQueue<String>()
-        subGroupQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount
+        subGroupQueue.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
     }
     
     override func tearDown() {
@@ -36,11 +36,11 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         let ops = stringAppendingBlockOperations(splitString(string), sharedBox: result)
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         ops.forEach { subGroupQueue.addOperation($0, key: key) }
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -57,7 +57,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         let opsB = stringAppendingBlockOperations(splitString(stringB), sharedBox: resultB)
         let opsC = stringAppendingBlockOperations(splitString(stringC), sharedBox: resultC)
 
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
         subGroupQueue.addOperation(opsA[0], key: keyA)
@@ -79,7 +79,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.addOperation(opsB[5], key: keyB)
         subGroupQueue.addOperation(opsC[5], key: keyC)
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -113,13 +113,13 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         let opsB = stringAppendingBlockOperations(splitString(stringB), sharedBox: resultB)
         let opsC = stringAppendingBlockOperations(splitString(stringC), sharedBox: resultC)
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         subGroupQueue.addOperations(opsA, key: keyA, waitUntilFinished: false)
         subGroupQueue.addOperations(opsB, key: keyB, waitUntilFinished: false)
         subGroupQueue.addOperations(opsC, key: keyC, waitUntilFinished: false)
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -138,11 +138,11 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         let blocks = stringAppendingBlocks(splitString(string), sharedBox: result)
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         blocks.forEach { subGroupQueue.addOperationWithBlock($0, key: key) }
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -159,7 +159,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         let blocksB = stringAppendingBlocks(splitString(stringB), sharedBox: resultB)
         let blocksC = stringAppendingBlocks(splitString(stringC), sharedBox: resultC)
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
         subGroupQueue.addOperationWithBlock(blocksA[0], key: keyA)
@@ -181,7 +181,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.addOperationWithBlock(blocksB[5], key: keyB)
         subGroupQueue.addOperationWithBlock(blocksC[5], key: keyC)
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -200,19 +200,19 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         let blocks = stringAppendingBlocks(splitString(string), sharedBox: result)
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
-        subGroupQueue.addOperation(NSBlockOperation(block: blocks[0]), key: key)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocks[1]), key: key)
+        subGroupQueue.addOperation(BlockOperation(block: blocks[0]), key: key)
+        subGroupQueue.addOperation(BlockOperation(block: blocks[1]), key: key)
         
         subGroupQueue.addOperationWithBlock(blocks[2], key: key)
         subGroupQueue.addOperationWithBlock(blocks[3], key: key)
         
-        let op5 = NSBlockOperation(block: blocks[4])
-        let op6 = NSBlockOperation(block: blocks[5])
+        let op5 = BlockOperation(block: blocks[4])
+        let op6 = BlockOperation(block: blocks[5])
         subGroupQueue.addOperations([op5, op6], key: key, waitUntilFinished: false)
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -229,35 +229,35 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         let blocksB = stringAppendingBlocks(splitString(stringB), sharedBox: resultB)
         let blocksC = stringAppendingBlocks(splitString(stringC), sharedBox: resultC)
         
-        let opA5 = NSBlockOperation(block: blocksA[4])
-        let opA6 = NSBlockOperation(block: blocksA[5])
+        let opA5 = BlockOperation(block: blocksA[4])
+        let opA6 = BlockOperation(block: blocksA[5])
         
-        let opB3 = NSBlockOperation(block: blocksB[2])
-        let opB4 = NSBlockOperation(block: blocksB[3])
+        let opB3 = BlockOperation(block: blocksB[2])
+        let opB4 = BlockOperation(block: blocksB[3])
         
-        let opC1 = NSBlockOperation(block: blocksC[0])
-        let opC2 = NSBlockOperation(block: blocksC[1])
+        let opC1 = BlockOperation(block: blocksC[0])
+        let opC2 = BlockOperation(block: blocksC[1])
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksA[0]), key: keyA)
+        subGroupQueue.addOperation(BlockOperation(block: blocksA[0]), key: keyA)
         subGroupQueue.addOperationWithBlock(blocksB[0], key: keyB)
         subGroupQueue.addOperations([opC1, opC2], key: keyC, waitUntilFinished: false)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksA[1]), key: keyA)
+        subGroupQueue.addOperation(BlockOperation(block: blocksA[1]), key: keyA)
         subGroupQueue.addOperationWithBlock(blocksB[1], key: keyB)
         subGroupQueue.addOperations([opB3, opB4], key: keyB, waitUntilFinished: false)
         subGroupQueue.addOperationWithBlock(blocksA[2], key: keyA)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksC[2]), key: keyC)
+        subGroupQueue.addOperation(BlockOperation(block: blocksC[2]), key: keyC)
         subGroupQueue.addOperationWithBlock(blocksA[3], key: keyA)
         subGroupQueue.addOperations([opA5, opA6], key: keyA, waitUntilFinished: false)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksC[3]), key: keyC)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksB[4]), key: keyB)
+        subGroupQueue.addOperation(BlockOperation(block: blocksC[3]), key: keyC)
+        subGroupQueue.addOperation(BlockOperation(block: blocksB[4]), key: keyB)
         subGroupQueue.addOperationWithBlock(blocksC[4], key: keyC)
-        subGroupQueue.addOperation(NSBlockOperation(block: blocksB[5]), key: keyB)
+        subGroupQueue.addOperation(BlockOperation(block: blocksB[5]), key: keyB)
         subGroupQueue.addOperationWithBlock(blocksC[5], key: keyC)
         
-        subGroupQueue.suspended = false
+        subGroupQueue.isSuspended = false
         
         subGroupQueue.waitUntilAllOperationsAreFinished()
         
@@ -276,7 +276,7 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         
         let ops = stringAppendingBlockOperations(splitString("123456"), sharedBox: Box<String>(""))
         
-        subGroupQueue.suspended = true
+        subGroupQueue.isSuspended = true
         
         subGroupQueue.addOperation(ops[0], key: key)
         XCTAssert(subGroupQueue.subGroupOperations(key) == Array(ops[0..<1]))
@@ -302,15 +302,15 @@ class APNSubGroupOperationQueueTests: XCTestCase {
     
     // MARK: - Auxiliary
     
-    private func splitString(string: String) -> [String] {
+    fileprivate func splitString(_ string: String) -> [String] {
         return string.characters.map { String($0) }
     }
     
-    private func stringAppendingBlocks(strings: [String], sharedBox: Box<String>) -> [() -> Void] {
+    fileprivate func stringAppendingBlocks(_ strings: [String], sharedBox: Box<String>) -> [() -> Void] {
         return strings.map { s in return { sharedBox.value += s } }
     }
     
-    private func stringAppendingBlockOperations(strings: [String], sharedBox: Box<String>) -> [NSBlockOperation] {
-        return strings.map { s in NSBlockOperation(block: { sharedBox.value += s }) }
+    fileprivate func stringAppendingBlockOperations(_ strings: [String], sharedBox: Box<String>) -> [BlockOperation] {
+        return strings.map { s in BlockOperation(block: { sharedBox.value += s }) }
     }
 }

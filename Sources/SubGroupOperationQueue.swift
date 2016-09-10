@@ -36,7 +36,7 @@ import Foundation
  These operations aren't returned by either `subscript` or `subGroupOperations` even though they technically are in the 
  subgroup.
  */
-private final class CompletionOperation: NSBlockOperation {}
+private final class CompletionOperation: BlockOperation {}
 
 /** 
  `SubGroupOperationQueue` is an `NSOperation` subclass which allows scheduling operations in serial subgroups inside
@@ -46,10 +46,10 @@ private final class CompletionOperation: NSBlockOperation {}
  operations which are pending and executing. Finished `NSOperation`s are automatically removed from the subgroup after 
  completion.
 */
-public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
+public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
     
-    private let queue: dispatch_queue_t
-    private var subGroups: [Key : [NSOperation]]
+    fileprivate let queue: DispatchQueue
+    fileprivate var subGroups: [Key : [Operation]]
     
     /** 
      The maximum number of queued operations that can execute at the same time.
@@ -72,7 +72,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      - returns: A new `SubGroupOperationQueue` instance.
      */
     override public init() {
-        queue = dispatch_queue_create("com.p4checo.\(self.dynamicType).queue", DISPATCH_QUEUE_CONCURRENT)
+        queue = DispatchQueue(label: "com.p4checo.\(type(of: self)).queue", attributes: DispatchQueue.Attributes.concurrent)
         subGroups = [:]
         
         super.init()
@@ -89,17 +89,17 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      - parameter op:  The `NSOperation` to be added to the queue.
      - parameter key: The subgroup's identifier key.
      */
-    public func addOperation(op: NSOperation, key: Key) {
-        var opPair = [NSOperation]()
+    public func addOperation(_ op: Operation, key: Key) {
+        var opPair = [Operation]()
         
-        dispatch_barrier_sync(queue) {
+        queue.sync(flags: .barrier, execute: {
             var subGroup = self.subGroups[key] ?? []
             let completionOp = self.addOperationDependencies(op, key: key, subGroup: subGroup)
             opPair = [op, completionOp]
             
-                subGroup.appendContentsOf(opPair)
+                subGroup.append(contentsOf: opPair)
             self.subGroups[key] = subGroup
-        }
+        }) 
         
         addOperations(opPair, waitUntilFinished: false)
     }
@@ -116,21 +116,21 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      - parameter wait: If `true`, the current thread is blocked until all of the specified operations finish executing. 
      If `false`, the operations are added to the queue and control returns immediately to the caller.
      */
-    public func addOperations(ops: [NSOperation], key: Key, waitUntilFinished wait: Bool) {
-        var newOps = [NSOperation]()
+    public func addOperations(_ ops: [Operation], key: Key, waitUntilFinished wait: Bool) {
+        var newOps = [Operation]()
         
-        dispatch_barrier_sync(queue) {
+        queue.sync(flags: .barrier, execute: {
             var subGroup = self.subGroups[key] ?? []
             
             ops.forEach { op in
                 let completionOp = self.addOperationDependencies(op, key: key, subGroup: subGroup)
                 let opPair = [op, completionOp]
-                    newOps.appendContentsOf(opPair)
-                    subGroup.appendContentsOf(opPair)
+                    newOps.append(contentsOf: opPair)
+                    subGroup.append(contentsOf: opPair)
             }
             
             self.subGroups[key] = subGroup
-        }
+        }) 
         
         addOperations(newOps, waitUntilFinished: wait)
     }
@@ -145,8 +145,8 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      - parameter block: The block to execute from the operation.
      - parameter key:   The subgroup's identifier key.
      */
-    public func addOperationWithBlock(block: () -> Void, key: Key) {
-        addOperation(NSBlockOperation(block: block), key: key)
+    public func addOperationWithBlock(_ block: @escaping () -> Void, key: Key) {
+        addOperation(BlockOperation(block: block), key: key)
     }
     
     // MARK: SubGroup querying
@@ -158,7 +158,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      
      - returns: An `[NSOperation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
-    public subscript(key: Key) -> [NSOperation] {
+    public subscript(key: Key) -> [Operation] {
         return subGroupOperations(key)
     }
     
@@ -169,10 +169,10 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
      
      - returns: An `[NSOperation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
-    public func subGroupOperations(key: Key) -> [NSOperation] {
-        var ops: [NSOperation]?
+    public func subGroupOperations(_ key: Key) -> [Operation] {
+        var ops: [Operation]?
         
-        dispatch_sync(queue) {
+        queue.sync {
             ops = self.subGroups[key]?.filter{ !($0 is CompletionOperation) }
         }
         
@@ -181,7 +181,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
     
     // MARK: - Private
     
-    private func addOperationDependencies(op: NSOperation, key: Key, subGroup: [NSOperation]) -> CompletionOperation {
+    fileprivate func addOperationDependencies(_ op: Operation, key: Key, subGroup: [Operation]) -> CompletionOperation {
         let completionOp = completionOperation(op, key: key)
         completionOp.addDependency(op)
         
@@ -193,11 +193,11 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
         return completionOp
     }
     
-    private func completionOperation(op: NSOperation, key: Key) -> CompletionOperation {
+    fileprivate func completionOperation(_ op: Operation, key: Key) -> CompletionOperation {
         let completionOp = CompletionOperation()
         
         completionOp.addExecutionBlock({ [weak weakCompletionOp = completionOp] in
-            dispatch_barrier_sync(self.queue) {
+            self.queue.sync(flags: .barrier, execute: {
                 guard let completionOp = weakCompletionOp else {
                     assertionFailure("💥: The completion operation must not be nil")
                     return
@@ -217,7 +217,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: NSOperationQueue {
                     subGroup.removeFirst(2)
                     return subGroup
                 }()
-            }
+            }) 
         })
         
         return completionOp
