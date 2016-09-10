@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param wait If \c YES, the current thread is blocked until all of the specified operations finish executing. If \c
  * NO, the operations are added to the queue and control returns immediately to the caller.
  */
-- (void)addOperations:(NSArray<NSOperation *> *)ops withKey:(id<NSCopying>)key waitUntilFinished:(BOOL)wait;
+- (void)addOperations:(NSArray<__kindof NSOperation *> *)ops withKey:(id<NSCopying>)key waitUntilFinished:(BOOL)wait;
 
 /**
  *  Wraps the specified block in an operation object, adds it to the queue and and registers it the subgroup identified
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An \c NSOperation array containing a snapshot of all currently scheduled (non-finished) subgroup operations.
  */
-- (NSArray<NSOperation *> *)subGroupOperationsForKey:(id<NSCopying>)key;
+- (NSArray<__kindof NSOperation *> *)subGroupOperationsForKey:(id<NSCopying>)key;
 
 @end
 

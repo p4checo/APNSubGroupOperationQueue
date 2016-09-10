@@ -40,7 +40,7 @@
 @interface APNSubGroupOperationQueue ()
 
 @property(nonatomic, strong) dispatch_queue_t queue;
-@property(nonatomic, strong) NSMutableDictionary<id<NSCopying>, NSArray<NSOperation *> *> *subGroups;
+@property(nonatomic, strong) NSMutableDictionary<id<NSCopying>, NSArray<__kindof NSOperation *> *> *subGroups;
 
 @end
 
@@ -80,7 +80,7 @@
     [self addOperations:opPair waitUntilFinished:false];
 }
 
-- (void)addOperations:(NSArray<NSOperation *> *)ops withKey:(id<NSCopying>)key waitUntilFinished:(BOOL)wait {
+- (void)addOperations:(NSArray<__kindof NSOperation *> *)ops withKey:(id<NSCopying>)key waitUntilFinished:(BOOL)wait {
     NSParameterAssert(ops.count);
     NSParameterAssert(key);
 
@@ -113,7 +113,7 @@
 #pragma mark -
 #pragma mark SubGroup querying
 
-- (NSArray<NSOperation *> *)subGroupOperationsForKey:(id<NSCopying>)key {
+- (NSArray<__kindof NSOperation *> *)subGroupOperationsForKey:(id<NSCopying>)key {
     NSParameterAssert(key);
 
     static NSPredicate *classPredicate;
@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (APNCompletionOperation *)addDependenciesOnOperation:(NSOperation *)op
                                                withKey:(id<NSCopying>)key
-                                            inSubGroup:(NSArray<NSOperation *> *)subGroup {
+                                            inSubGroup:(NSArray<__kindof NSOperation *> *)subGroup {
     NSParameterAssert(op);
     NSParameterAssert(key);
     NSParameterAssert(subGroup);
