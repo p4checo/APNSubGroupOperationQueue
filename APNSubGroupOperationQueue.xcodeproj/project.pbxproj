@@ -63,7 +63,7 @@
 		0A1FE5C01CBA9C2600FFAA96 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0A1FE5C11CBAA4E600FFAA96 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = APNSubGroupOperationQueue.podspec; sourceTree = "<group>"; };
+		0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = APNSubGroupOperationQueue.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0A9DED791CA7513A00E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DED861CA7515800E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DED931CA7516700E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +85,7 @@
 		0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubGroupOperationQueue.h; sourceTree = "<group>"; };
 		0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubGroupOperationQueue.m; sourceTree = "<group>"; };
 		0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNSubGroupOperationQueueTests_ObjC.m; sourceTree = "<group>"; };
+		0AAB23031D85FCEE0056EC79 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +189,7 @@
 				0A1FE5C01CBA9C2600FFAA96 /* README.md */,
 				0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */,
 				0A1FE5C11CBAA4E600FFAA96 /* Makefile */,
+				0AAB23031D85FCEE0056EC79 /* .swift-version */,
 				0A15BE5F1CBAD28C00D6E3DB /* Package.swift */,
 				0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */,
 				0A9DEDEA1CA83B7400E81AEA /* LICENSE */,
@@ -602,6 +604,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -631,6 +634,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
