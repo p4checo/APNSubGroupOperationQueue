@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
     
     s.source       = { :git => "https://github.com/p4checo/APNSubGroupOperationQueue.git", :tag => s.version }
     
-    s.source_files = "Sources/**/SubGroupOperationQueue.{h,m,swift}"
+    s.source_files = "Sources/**/*.swift"
     
     s.framework = "Foundation"
 end

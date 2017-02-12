@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A5DB88C1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */; };
+		0A5DB88D1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */; };
+		0A5DB88E1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */; };
+		0A5DB88F1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */; };
+		0A5DB8911E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */; };
+		0A5DB8921E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */; };
+		0A5DB8931E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */; };
+		0A5DB8941E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */; };
+		0A5DB8961E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */; };
+		0A5DB8971E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */; };
+		0A5DB8981E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */; };
+		0A5DB8991E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */; };
+		0A5DB89B1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89A1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift */; };
+		0A5DB89C1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89A1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift */; };
+		0A5DB89D1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89A1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift */; };
+		0A5DB89F1E50CC3D00DD3AD9 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89E1E50CC3D00DD3AD9 /* TestUtils.swift */; };
+		0A5DB8A01E50CC3D00DD3AD9 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89E1E50CC3D00DD3AD9 /* TestUtils.swift */; };
+		0A5DB8A11E50CC3D00DD3AD9 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DB89E1E50CC3D00DD3AD9 /* TestUtils.swift */; };
 		0A9DEDA51CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDA21CA7527900E81AEA /* APNSubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A9DEDA61CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDA21CA7527900E81AEA /* APNSubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A9DEDA71CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDA21CA7527900E81AEA /* APNSubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -18,20 +36,12 @@
 		0A9DEDED1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDEB1CA83BC400E81AEA /* SubGroupOperationQueue.swift */; };
 		0A9DEDEE1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDEB1CA83BC400E81AEA /* SubGroupOperationQueue.swift */; };
 		0A9DEDEF1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDEB1CA83BC400E81AEA /* SubGroupOperationQueue.swift */; };
-		0A9DEDF21CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift */; };
-		0A9DEDF31CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift */; };
-		0A9DEDF41CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift */; };
-		0A9DEDFC1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A9DEDFD1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A9DEDFE1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A9DEDFF1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A9DEE001CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */; };
-		0A9DEE011CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */; };
-		0A9DEE021CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */; };
-		0A9DEE031CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */; };
-		0A9DEE3D1CB15FB700E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */; };
-		0A9DEE3E1CB15FB700E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */; };
-		0A9DEE3F1CB15FB800E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */; };
+		0A9DEDF21CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift */; };
+		0A9DEDF31CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift */; };
+		0A9DEDF41CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEDF11CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift */; };
+		0A9DEE3D1CB15FB700E81AEA /* APNSubGroupOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */; };
+		0A9DEE3E1CB15FB700E81AEA /* APNSubGroupOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */; };
+		0A9DEE3F1CB15FB800E81AEA /* APNSubGroupOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +73,11 @@
 		0A1FE5C01CBA9C2600FFAA96 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0A1FE5C11CBAA4E600FFAA96 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSubGroupOperationQueue.swift; sourceTree = "<group>"; };
+		0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionOperation.swift; sourceTree = "<group>"; };
+		0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationSubGroupMap.swift; sourceTree = "<group>"; };
+		0A5DB89A1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSubGroupOperationQueueTests.swift; sourceTree = "<group>"; };
+		0A5DB89E1E50CC3D00DD3AD9 /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = APNSubGroupOperationQueue.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0A9DED791CA7513A00E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DED861CA7515800E81AEA /* APNSubGroupOperationQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APNSubGroupOperationQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,13 +93,11 @@
 		0A9DEDDA1CA8353200E81AEA /* APNSubGroupOperationQueue macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "APNSubGroupOperationQueue macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9DEDEA1CA83B7400E81AEA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0A9DEDEB1CA83BC400E81AEA /* SubGroupOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubGroupOperationQueue.swift; sourceTree = "<group>"; };
-		0A9DEDF11CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APNSubGroupOperationQueueTests.swift; sourceTree = "<group>"; };
+		0A9DEDF11CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubGroupOperationQueueTests.swift; sourceTree = "<group>"; };
 		0A9DEDF71CA88BFD00E81AEA /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		0A9DEDF81CA88BFD00E81AEA /* Info-OSX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-OSX.plist"; sourceTree = "<group>"; };
 		0A9DEDF91CA88BFD00E81AEA /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
-		0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubGroupOperationQueue.h; sourceTree = "<group>"; };
-		0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubGroupOperationQueue.m; sourceTree = "<group>"; };
-		0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNSubGroupOperationQueueTests_ObjC.m; sourceTree = "<group>"; };
+		0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNSubGroupOperationQueueTests.m; sourceTree = "<group>"; };
 		0AAB23031D85FCEE0056EC79 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,8 +186,9 @@
 			children = (
 				0A9DEDA21CA7527900E81AEA /* APNSubGroupOperationQueue.h */,
 				0A9DEDEB1CA83BC400E81AEA /* SubGroupOperationQueue.swift */,
-				0A9DEDFA1CB1405400E81AEA /* SubGroupOperationQueue.h */,
-				0A9DEDFB1CB1405400E81AEA /* SubGroupOperationQueue.m */,
+				0A5DB88B1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift */,
+				0A5DB8951E50B6BA00DD3AD9 /* OperationSubGroupMap.swift */,
+				0A5DB8901E509E5E00DD3AD9 /* CompletionOperation.swift */,
 				0A9DED9C1CA751D800E81AEA /* Info-iOS.plist */,
 				0A9DED9D1CA751D800E81AEA /* Info-tvOS.plist */,
 				0A9DED9E1CA751D800E81AEA /* Info-watchOS.plist */,
@@ -200,8 +214,10 @@
 		0A9DEDF01CA88B5A00E81AEA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				0A9DEDF11CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift */,
-				0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests_ObjC.m */,
+				0A9DEDF11CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift */,
+				0A5DB89A1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift */,
+				0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */,
+				0A5DB89E1E50CC3D00DD3AD9 /* TestUtils.swift */,
 				0A9DEDF71CA88BFD00E81AEA /* Info-iOS.plist */,
 				0A9DEDF81CA88BFD00E81AEA /* Info-OSX.plist */,
 				0A9DEDF91CA88BFD00E81AEA /* Info-tvOS.plist */,
@@ -217,7 +233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9DEDA51CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */,
-				0A9DEDFC1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +241,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9DEDA61CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */,
-				0A9DEDFD1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +249,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9DEDA71CA7531900E81AEA /* APNSubGroupOperationQueue.h in Headers */,
-				0A9DEDFE1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,7 +257,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9DEDB61CA754B200E81AEA /* APNSubGroupOperationQueue.h in Headers */,
-				0A9DEDFF1CB1405400E81AEA /* SubGroupOperationQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,8 +511,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE001CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */,
+				0A5DB88C1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */,
 				0A9DEDEC1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */,
+				0A5DB8911E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */,
+				0A5DB8961E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,8 +522,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE011CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */,
+				0A5DB88D1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */,
 				0A9DEDED1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */,
+				0A5DB8921E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */,
+				0A5DB8971E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,8 +533,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE021CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */,
+				0A5DB88E1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */,
 				0A9DEDEE1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */,
+				0A5DB8931E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */,
+				0A5DB8981E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,8 +544,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE031CB1405400E81AEA /* SubGroupOperationQueue.m in Sources */,
+				0A5DB88F1E509E4500DD3AD9 /* DynamicSubGroupOperationQueue.swift in Sources */,
 				0A9DEDEF1CA83BC400E81AEA /* SubGroupOperationQueue.swift in Sources */,
+				0A5DB8941E509E5E00DD3AD9 /* CompletionOperation.swift in Sources */,
+				0A5DB8991E50B6BA00DD3AD9 /* OperationSubGroupMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,8 +555,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE3D1CB15FB700E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */,
-				0A9DEDF21CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */,
+				0A5DB89B1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */,
+				0A9DEE3D1CB15FB700E81AEA /* APNSubGroupOperationQueueTests.m in Sources */,
+				0A9DEDF21CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */,
+				0A5DB89F1E50CC3D00DD3AD9 /* TestUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,8 +566,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE3E1CB15FB700E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */,
-				0A9DEDF31CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */,
+				0A5DB89C1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */,
+				0A9DEE3E1CB15FB700E81AEA /* APNSubGroupOperationQueueTests.m in Sources */,
+				0A9DEDF31CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */,
+				0A5DB8A01E50CC3D00DD3AD9 /* TestUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,8 +577,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9DEE3F1CB15FB800E81AEA /* APNSubGroupOperationQueueTests_ObjC.m in Sources */,
-				0A9DEDF41CA88B9F00E81AEA /* APNSubGroupOperationQueueTests.swift in Sources */,
+				0A5DB89D1E50CBA400DD3AD9 /* DynamicSubGroupOperationQueueTests.swift in Sources */,
+				0A9DEE3F1CB15FB800E81AEA /* APNSubGroupOperationQueueTests.m in Sources */,
+				0A9DEDF41CA88B9F00E81AEA /* SubGroupOperationQueueTests.swift in Sources */,
+				0A5DB8A11E50CC3D00DD3AD9 /* TestUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

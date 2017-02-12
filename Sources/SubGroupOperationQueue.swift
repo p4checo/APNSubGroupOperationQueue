@@ -25,31 +25,17 @@
 
 import Foundation
 
-/**
- `CompletionOperation` is an `NSBlockOperation` subclass which is used internally by the `SubGroupOperationQueue` to 
- remove completed operations from the subgroup dictionary.
- 
- For each operation submitted by the user to the queue, a `CompletionOperation` which depends on it is created 
- containing the logic to cleanup the subgroup dictionary. By doing this, the operation's `completionBlock` doesn't have 
- to be used, allowing the user full control over the operation, without introducing possible side-effects.
- 
- These operations aren't returned by either `subscript` or `subGroupOperations` even though they technically are in the 
- subgroup.
- */
-private final class CompletionOperation: BlockOperation {}
-
 /** 
- `SubGroupOperationQueue` is an `NSOperation` subclass which allows scheduling operations in serial subgroups inside
+ `SubGroupOperationQueue` is an `OperationQueue` subclass which allows scheduling operations in serial subgroups inside
  a concurrent queue. 
  
- The subgroups are stored as a `[Key : [NSOperation]]`, and each subgroup array contains all the scheduled subgroup's 
- operations which are pending and executing. Finished `NSOperation`s are automatically removed from the subgroup after 
+ The subgroups are stored as a `[Key : [Operation]]`, and each subgroup array contains all the scheduled subgroup's
+ operations which are pending and executing. Finished `Operation`s are automatically removed from the subgroup after 
  completion.
 */
-public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
-    
-    fileprivate let queue: DispatchQueue
-    fileprivate var subGroups: [Key : [Operation]]
+public class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
+
+    fileprivate let subGroups = OperationSubGroupMap<AnyHashable>()
     
     /** 
      The maximum number of queued operations that can execute at the same time.
@@ -57,28 +43,13 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      - warning: This value should be `!= 1` (serial queue), otherwise this class provides no benefit.
     */
     override public var maxConcurrentOperationCount: Int {
-        get {
-            return super.maxConcurrentOperationCount
-        }
+        get { return super.maxConcurrentOperationCount }
         set {
             assert(newValue != 1, "`SubGroupQueue` must be concurrent to provide any benefit over a serial queue! 🙃")
             super.maxConcurrentOperationCount = newValue
         }
     }
 
-    /**
-     Instantiates a new `SubGroupOperationQueue`.
-     
-     - returns: A new `SubGroupOperationQueue` instance.
-     */
-    override public init() {
-        queue = DispatchQueue(label: "com.p4checo.\(type(of: self)).queue",
-                              attributes: DispatchQueue.Attributes.concurrent)
-        subGroups = [:]
-        
-        super.init()
-    }
-    
     // MARK: - Public
 
     /**
@@ -87,24 +58,11 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      Once added, the operation will only be executed after all currently existing operations in the same subgroup finish
      * executing (serial processing), but can be executed concurrently with other subgroup's operations.
      
-     - parameter op:  The `NSOperation` to be added to the queue.
+     - parameter op:  The `Operation` to be added to the queue.
      - parameter key: The subgroup's identifier key.
      */
     public func addOperation(_ op: Operation, withKey key: Key) {
-        var opPair = [Operation]()
-        
-        queue.sync(flags: .barrier, execute: {
-            var subGroup = self.subGroups[key] ?? []
-
-            let completionOp = self.createCompletionOperation(forOperation: op, withKey: key)
-            self.setupDependencies(forOperation: op, completionOp: completionOp, subGroup: subGroup)
-
-            opPair = [op, completionOp]
-            subGroup.append(contentsOf: opPair)
-            self.subGroups[key] = subGroup
-        }) 
-        
-        addOperations(opPair, waitUntilFinished: false)
+        addOperations(subGroups.register(op, withKey: key), waitUntilFinished: false)
     }
     
     /**
@@ -114,30 +72,13 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      Once added, the operations will be executed in order after all currently existing operations in the same subgroup
      finish executing (serial processing), but can be executed concurrently with other subgroup's operations.
      
-     - parameter ops:  The `[NSOperation]` to be added to the queue
+     - parameter ops:  The `[Operation]` to be added to the queue
      - parameter key:  The subgroup's identifier key
      - parameter wait: If `true`, the current thread is blocked until all of the specified operations finish executing. 
      If `false`, the operations are added to the queue and control returns immediately to the caller.
      */
     public func addOperations(_ ops: [Operation], withKey key: Key, waitUntilFinished wait: Bool) {
-        var newOps = [Operation]()
-        
-        queue.sync(flags: .barrier, execute: {
-            var subGroup = self.subGroups[key] ?? []
-            
-            ops.forEach { op in
-                let completionOp = self.createCompletionOperation(forOperation: op, withKey: key)
-                self.setupDependencies(forOperation: op, completionOp: completionOp, subGroup: subGroup)
-
-                let opPair = [op, completionOp]
-                newOps.append(contentsOf: opPair)
-                subGroup.append(contentsOf: opPair)
-            }
-            
-            self.subGroups[key] = subGroup
-        }) 
-        
-        addOperations(newOps, waitUntilFinished: wait)
+        addOperations(subGroups.register(ops, withKey: key), waitUntilFinished: wait)
     }
     
     /**
@@ -151,7 +92,7 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      - parameter key:   The subgroup's identifier key.
      */
     public func addOperation(_ block: @escaping () -> Void, withKey key: Key) {
-        addOperation(BlockOperation(block: block), withKey: key)
+        addOperations(subGroups.register(block, withKey: key), waitUntilFinished: false)
     }
     
     // MARK: SubGroup querying
@@ -161,10 +102,10 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      
      - parameter key: The subgroup's identifier key.
      
-     - returns: An `[NSOperation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
+     - returns: An `[Operation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
     public subscript(key: Key) -> [Operation] {
-        return subGroupOperations(forKey: key)
+        return subGroups[key]
     }
     
     /**
@@ -172,58 +113,9 @@ public final class SubGroupOperationQueue<Key: Hashable>: OperationQueue {
      
      - parameter key: The subgroup's identifier key.
      
-     - returns: An `[NSOperation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
+     - returns: An `[Operation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
     public func subGroupOperations(forKey key: Key) -> [Operation] {
-        var ops: [Operation]?
-        
-        queue.sync {
-            ops = self.subGroups[key]?.filter{ !($0 is CompletionOperation) }
-        }
-        
-        return ops ?? []
-    }
-    
-    // MARK: - Private
-    
-    fileprivate func setupDependencies(forOperation op: Operation,
-                                       completionOp: CompletionOperation,
-                                       subGroup: [Operation]) {
-        completionOp.addDependency(op)
-        
-        // new operations only need to depend on the group's last operation
-        if let lastOp = subGroup.last {
-            op.addDependency(lastOp)
-        }
-    }
-    
-    fileprivate func createCompletionOperation(forOperation op: Operation, withKey key: Key) -> CompletionOperation {
-        let completionOp = CompletionOperation()
-        
-        completionOp.addExecutionBlock({ [weak weakCompletionOp = completionOp] in
-            self.queue.sync(flags: .barrier, execute: {
-                guard let completionOp = weakCompletionOp else {
-                    assertionFailure("💥: The completion operation must not be nil")
-                    return
-                }
-                
-                guard var subGroup = self.subGroups[key] else {
-                    assertionFailure("💥: A group must exist in the dicionary for the finished operation's key!")
-                    return
-                }
-                
-                guard [op, completionOp] == subGroup[0...1] else {
-                    assertionFailure("💥: op and completionOp must be the first 2 elements in the subgroup's array")
-                    return
-                }
-                
-                self.subGroups[key] = subGroup.count == 2 ? nil : {
-                    subGroup.removeFirst(2)
-                    return subGroup
-                }()
-            }) 
-        })
-        
-        return completionOp
+        return subGroups[key]
     }
 }

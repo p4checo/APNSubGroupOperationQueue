@@ -1,5 +1,5 @@
 //
-//  APNSubGroupOperationQueueTests_ObjC.m
+//  APNSubGroupOperationQueueTests.m
 //  APNSubGroupOperationQueue
 //
 //  Created by André Pacheco Neves on 03/04/16.
@@ -8,17 +8,17 @@
 
 #import <XCTest/XCTest.h>
 
-#import <APNSubGroupOperationQueue/APNSubGroupOperationQueue.h>
+@import APNSubGroupOperationQueue;
 
 typedef void (^APNAppendingBlock)(void);
 
-@interface APNSubGroupOperationQueueTests_ObjC : XCTestCase
+@interface APNSubGroupOperationQueueTests : XCTestCase
 
 @property(nonatomic, strong) APNSubGroupOperationQueue *subGroupQueue;
 
 @end
 
-@implementation APNSubGroupOperationQueueTests_ObjC
+@implementation APNSubGroupOperationQueueTests
 
 - (void)setUp {
     [super setUp];
@@ -56,9 +56,9 @@ typedef void (^APNAppendingBlock)(void);
 }
 
 - (void)testAddOperation_withMutipleGroups_mustExecuteEachGroupSerially {
-    NSString *keyA = @"keyA";
-    NSString *keyB = @"keyB";
-    NSString *keyC = @"keyC";
+    NSObject *keyA = @"A";
+    NSObject *keyB = @1337;
+    NSObject *keyC = [NSDate date];
 
     NSString *stringA = @"123456";
     NSString *stringB = @"abcdef";
@@ -128,9 +128,9 @@ typedef void (^APNAppendingBlock)(void);
 }
 
 - (void)testAddOperations_withMutipleGroups_mustExecuteEachGroupSerially {
-    NSString *keyA = @"keyA";
-    NSString *keyB = @"keyB";
-    NSString *keyC = @"keyC";
+    NSObject *keyA = @"A";
+    NSObject *keyB = @1337;
+    NSObject *keyC = [NSDate date];
 
     NSString *stringA = @"123456";
     NSString *stringB = @"abcdef";
@@ -193,9 +193,9 @@ typedef void (^APNAppendingBlock)(void);
 }
 
 - (void)testAddOperationWithBlock_withMutipleGroups_mustExecuteEachGroupSerially {
-    NSString *keyA = @"keyA";
-    NSString *keyB = @"keyB";
-    NSString *keyC = @"keyC";
+    NSObject *keyA = @"A";
+    NSObject *keyB = @1337;
+    NSObject *keyC = [NSDate date];
 
     NSString *stringA = @"123456";
     NSString *stringB = @"abcdef";
@@ -283,9 +283,9 @@ typedef void (^APNAppendingBlock)(void);
 }
 
 - (void)testMixedAddOperations_withMutipleGroups_mustExecuteEachGroupSerially {
-    NSString *keyA = @"keyA";
-    NSString *keyB = @"keyB";
-    NSString *keyC = @"keyC";
+    NSObject *keyA = @"A";
+    NSObject *keyB = @1337;
+    NSObject *keyC = [NSDate date];
 
     NSString *stringA = @"123456";
     NSString *stringB = @"abcdef";

@@ -1,64 +1,59 @@
 //
-//  APNSubGroupOperationQueueTests.swift
+//  DynamicSubGroupOperationQueueTests.swift
 //  APNSubGroupOperationQueue
 //
-//  Created by André Pacheco Neves on 27/03/16.
-//  Copyright © 2016 André Pacheco Neves. All rights reserved.
+//  Created by André Pacheco Neves on 12/02/2017.
+//  Copyright © 2017 André Pacheco Neves. All rights reserved.
 //
 
 import XCTest
 @testable import APNSubGroupOperationQueue
 
-private class Box<T>{
-    var value: T
-    init(_ v: T) { value = v }
-}
+class DynamicSubGroupOperationQueueTests: XCTestCase {
 
-class APNSubGroupOperationQueueTests: XCTestCase {
-    
-    var subGroupQueue: SubGroupOperationQueue<String>!
-    
+    var subGroupQueue: DynamicSubGroupOperationQueue!
+
     override func setUp() {
         super.setUp()
-        
-        subGroupQueue = SubGroupOperationQueue<String>()
+
+        subGroupQueue = DynamicSubGroupOperationQueue()
         subGroupQueue.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
+
     // MARK: - addOperation
-    
+
     func testAddOperation_withSingleGroup_mustExecuteSerially() {
-        let (key, string, result) = ("key", "123456", Box<String>(""))
-        
-        let ops = stringAppendingBlockOperations(splitString(string), sharedBox: result)
-        
-        subGroupQueue.isSuspended = true
-        
-        ops.forEach { subGroupQueue.addOperation($0, withKey: key) }
-        
-        subGroupQueue.isSuspended = false
-        
-        subGroupQueue.waitUntilAllOperationsAreFinished()
-        
-        XCTAssert(subGroupQueue[key].count == 0)
-        XCTAssert(result.value == string, "\(result.value) didn't match expected value \(string)")
-    }
-    
-    func testAddOperation_withMutipleGroups_mustExecuteEachGroupSerially() {
-        let (keyA, stringA, resultA) = ("keyA", "123456", Box<String>(""))
-        let (keyB, stringB, resultB) = ("keyB", "abcdef", Box<String>(""))
-        let (keyC, stringC, resultC) = ("keyC", "ABCDEF", Box<String>(""))
-        
-        let opsA = stringAppendingBlockOperations(splitString(stringA), sharedBox: resultA)
-        let opsB = stringAppendingBlockOperations(splitString(stringB), sharedBox: resultB)
-        let opsC = stringAppendingBlockOperations(splitString(stringC), sharedBox: resultC)
+        let (key, value, result) = ("key", "123456", Box<String>(""))
+
+        let ops = stringAppendingBlockOperations(for: splitString(value), sharedBox: result)
 
         subGroupQueue.isSuspended = true
-        
+
+        ops.forEach { subGroupQueue.addOperation($0, withKey: key) }
+
+        subGroupQueue.isSuspended = false
+
+        subGroupQueue.waitUntilAllOperationsAreFinished()
+
+        XCTAssert(subGroupQueue[key].count == 0)
+        XCTAssert(result.value == value, "\(result.value) didn't match expected value \(value)")
+    }
+
+    func testAddOperation_withMutipleGroups_mustExecuteEachGroupSerially() {
+        let (keyA, valueA, resultA) = ("A", "123456", Box<String>(""))
+        let (keyB, valueB, resultB) = (1337, "abcdef", Box<String>(""))
+        let (keyC, valueC, resultC) = (Date(), "ABCDEF", Box<String>(""))
+
+        let opsA = stringAppendingBlockOperations(for: splitString(valueA), sharedBox: resultA)
+        let opsB = stringAppendingBlockOperations(for: splitString(valueB), sharedBox: resultB)
+        let opsC = stringAppendingBlockOperations(for: splitString(valueC), sharedBox: resultC)
+
+        subGroupQueue.isSuspended = true
+
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
         subGroupQueue.addOperation(opsA[0], withKey: keyA)
         subGroupQueue.addOperation(opsB[0], withKey: keyB)
@@ -78,89 +73,89 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.addOperation(opsA[5], withKey: keyA)
         subGroupQueue.addOperation(opsB[5], withKey: keyB)
         subGroupQueue.addOperation(opsC[5], withKey: keyC)
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[keyA].count == 0)
         XCTAssert(subGroupQueue[keyB].count == 0)
         XCTAssert(subGroupQueue[keyC].count == 0)
-        XCTAssert(resultA.value == stringA, "\(resultA.value) didn't match expected value \(stringA)")
-        XCTAssert(resultB.value == stringB, "\(resultB.value) didn't match expected value \(stringB)")
-        XCTAssert(resultC.value == stringC, "\(resultC.value) didn't match expected value \(stringC)")
+        XCTAssert(resultA.value == valueA, "\(resultA.value) didn't match expected value \(valueA)")
+        XCTAssert(resultB.value == valueB, "\(resultB.value) didn't match expected value \(valueB)")
+        XCTAssert(resultC.value == valueC, "\(resultC.value) didn't match expected value \(valueC)")
     }
-    
+
     // MARK: - addOperations
-    
+
     func testAddOperations_withSingleGroup_mustExecuteSerially() {
-        let (key, string, result) = ("key", "123456", Box<String>(""))
-        
-        let ops = stringAppendingBlockOperations(splitString(string), sharedBox: result)
-        
+        let (key, value, result) = ("key", "123456", Box<String>(""))
+
+        let ops = stringAppendingBlockOperations(for: splitString(value), sharedBox: result)
+
         subGroupQueue.addOperations(ops, withKey: key, waitUntilFinished: true)
-        
+
         XCTAssert(subGroupQueue[key].count == 0)
-        XCTAssert(result.value == string, "\(result) didn't match expected value \(string)")
+        XCTAssert(result.value == value, "\(result) didn't match expected value \(value)")
     }
-    
+
     func testAddOperations_withMutipleGroups_mustExecuteEachGroupSerially() {
-        let (keyA, stringA, resultA) = ("keyA", "123456", Box<String>(""))
-        let (keyB, stringB, resultB) = ("keyB", "abcdef", Box<String>(""))
-        let (keyC, stringC, resultC) = ("keyC", "ABCDEF", Box<String>(""))
-        
-        let opsA = stringAppendingBlockOperations(splitString(stringA), sharedBox: resultA)
-        let opsB = stringAppendingBlockOperations(splitString(stringB), sharedBox: resultB)
-        let opsC = stringAppendingBlockOperations(splitString(stringC), sharedBox: resultC)
-        
+        let (keyA, valueA, resultA) = ("A", "123456", Box<String>(""))
+        let (keyB, valueB, resultB) = (1337, "abcdef", Box<String>(""))
+        let (keyC, valueC, resultC) = (Date(), "ABCDEF", Box<String>(""))
+
+        let opsA = stringAppendingBlockOperations(for: splitString(valueA), sharedBox: resultA)
+        let opsB = stringAppendingBlockOperations(for: splitString(valueB), sharedBox: resultB)
+        let opsC = stringAppendingBlockOperations(for: splitString(valueC), sharedBox: resultC)
+
         subGroupQueue.isSuspended = true
-        
+
         subGroupQueue.addOperations(opsA, withKey: keyA, waitUntilFinished: false)
         subGroupQueue.addOperations(opsB, withKey: keyB, waitUntilFinished: false)
         subGroupQueue.addOperations(opsC, withKey: keyC, waitUntilFinished: false)
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[keyA].count == 0)
         XCTAssert(subGroupQueue[keyB].count == 0)
         XCTAssert(subGroupQueue[keyC].count == 0)
-        XCTAssert(resultA.value == stringA, "\(resultA.value) didn't match expected value \(stringA)")
-        XCTAssert(resultB.value == stringB, "\(resultB.value) didn't match expected value \(stringB)")
-        XCTAssert(resultC.value == stringC, "\(resultC.value) didn't match expected value \(stringC)")
+        XCTAssert(resultA.value == valueA, "\(resultA.value) didn't match expected value \(valueA)")
+        XCTAssert(resultB.value == valueB, "\(resultB.value) didn't match expected value \(valueB)")
+        XCTAssert(resultC.value == valueC, "\(resultC.value) didn't match expected value \(valueC)")
     }
-    
+
     // MARK: - addOperation
-    
+
     func testAddOperationWithBlock_withSingleGroup_mustExecuteSerially() {
-        let (key, string, result) = ("key", "123456", Box<String>(""))
-        
-        let blocks = stringAppendingBlocks(splitString(string), sharedBox: result)
-        
+        let (key, value, result) = ("key", "123456", Box<String>(""))
+
+        let blocks = stringAppendingBlocks(for: splitString(value), sharedBox: result)
+
         subGroupQueue.isSuspended = true
-        
+
         blocks.forEach { subGroupQueue.addOperation($0, withKey: key) }
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[key].count == 0)
-        XCTAssert(result.value == string, "\(result.value) didn't match expected value \(string)")
+        XCTAssert(result.value == value, "\(result.value) didn't match expected value \(value)")
     }
-    
+
     func testAddOperationWithBlock_withMutipleGroups_mustExecuteEachGroupSerially() {
-        let (keyA, stringA, resultA) = ("keyA", "123456", Box<String>(""))
-        let (keyB, stringB, resultB) = ("keyB", "abcdef", Box<String>(""))
-        let (keyC, stringC, resultC) = ("keyC", "ABCDEF", Box<String>(""))
-        
-        let blocksA = stringAppendingBlocks(splitString(stringA), sharedBox: resultA)
-        let blocksB = stringAppendingBlocks(splitString(stringB), sharedBox: resultB)
-        let blocksC = stringAppendingBlocks(splitString(stringC), sharedBox: resultC)
-        
+        let (keyA, valueA, resultA) = ("A", "123456", Box<String>(""))
+        let (keyB, valueB, resultB) = (1337, "abcdef", Box<String>(""))
+        let (keyC, valueC, resultC) = (Date(), "ABCDEF", Box<String>(""))
+
+        let blocksA = stringAppendingBlocks(for: splitString(valueA), sharedBox: resultA)
+        let blocksB = stringAppendingBlocks(for: splitString(valueB), sharedBox: resultB)
+        let blocksC = stringAppendingBlocks(for: splitString(valueC), sharedBox: resultC)
+
         subGroupQueue.isSuspended = true
-        
+
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
         subGroupQueue.addOperation(blocksA[0], withKey: keyA)
         subGroupQueue.addOperation(blocksB[0], withKey: keyB)
@@ -180,66 +175,66 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.addOperation(blocksA[5], withKey: keyA)
         subGroupQueue.addOperation(blocksB[5], withKey: keyB)
         subGroupQueue.addOperation(blocksC[5], withKey: keyC)
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[keyA].count == 0)
         XCTAssert(subGroupQueue[keyB].count == 0)
         XCTAssert(subGroupQueue[keyC].count == 0)
-        XCTAssert(resultA.value == stringA, "\(resultA.value) didn't match expected value \(stringA)")
-        XCTAssert(resultB.value == stringB, "\(resultB.value) didn't match expected value \(stringB)")
-        XCTAssert(resultC.value == stringC, "\(resultC.value) didn't match expected value \(stringC)")
+        XCTAssert(resultA.value == valueA, "\(resultA.value) didn't match expected value \(valueA)")
+        XCTAssert(resultB.value == valueB, "\(resultB.value) didn't match expected value \(valueB)")
+        XCTAssert(resultC.value == valueC, "\(resultC.value) didn't match expected value \(valueC)")
     }
-    
+
     // MARK: - mixed
-    
+
     func testMixedAddOperations_withSingleGroup_mustExecuteEachGroupSerially() {
-        let (key, string, result) = ("key", "123456", Box<String>(""))
-        
-        let blocks = stringAppendingBlocks(splitString(string), sharedBox: result)
-        
+        let (key, value, result) = ("key", "123456", Box<String>(""))
+
+        let blocks = stringAppendingBlocks(for: splitString(value), sharedBox: result)
+
         subGroupQueue.isSuspended = true
-        
+
         subGroupQueue.addOperation(BlockOperation(block: blocks[0]), withKey: key)
         subGroupQueue.addOperation(BlockOperation(block: blocks[1]), withKey: key)
-        
+
         subGroupQueue.addOperation(blocks[2], withKey: key)
         subGroupQueue.addOperation(blocks[3], withKey: key)
-        
+
         let op5 = BlockOperation(block: blocks[4])
         let op6 = BlockOperation(block: blocks[5])
         subGroupQueue.addOperations([op5, op6], withKey: key, waitUntilFinished: false)
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[key].count == 0)
-        XCTAssert(result.value == string, "\(result.value) didn't match expected value \(string)")
+        XCTAssert(result.value == value, "\(result.value) didn't match expected value \(value)")
     }
-    
+
     func testMixedAddOperations_withMutipleGroups_mustExecuteEachGroupSerially() {
-        let (keyA, stringA, resultA) = ("keyA", "123456", Box<String>(""))
-        let (keyB, stringB, resultB) = ("keyB", "abcdef", Box<String>(""))
-        let (keyC, stringC, resultC) = ("keyC", "ABCDEF", Box<String>(""))
-        
-        let blocksA = stringAppendingBlocks(splitString(stringA), sharedBox: resultA)
-        let blocksB = stringAppendingBlocks(splitString(stringB), sharedBox: resultB)
-        let blocksC = stringAppendingBlocks(splitString(stringC), sharedBox: resultC)
-        
+        let (keyA, valueA, resultA) = ("A", "123456", Box<String>(""))
+        let (keyB, valueB, resultB) = (1337, "abcdef", Box<String>(""))
+        let (keyC, valueC, resultC) = (Date(), "ABCDEF", Box<String>(""))
+
+        let blocksA = stringAppendingBlocks(for: splitString(valueA), sharedBox: resultA)
+        let blocksB = stringAppendingBlocks(for: splitString(valueB), sharedBox: resultB)
+        let blocksC = stringAppendingBlocks(for: splitString(valueC), sharedBox: resultC)
+
         let opA5 = BlockOperation(block: blocksA[4])
         let opA6 = BlockOperation(block: blocksA[5])
-        
+
         let opB3 = BlockOperation(block: blocksB[2])
         let opB4 = BlockOperation(block: blocksB[3])
-        
+
         let opC1 = BlockOperation(block: blocksC[0])
         let opC2 = BlockOperation(block: blocksC[1])
-        
+
         subGroupQueue.isSuspended = true
-        
+
         // schedule them in order *inside* each subgroup, but *shuffled* between subgroups
         subGroupQueue.addOperation(BlockOperation(block: blocksA[0]), withKey: keyA)
         subGroupQueue.addOperation(blocksB[0], withKey: keyB)
@@ -256,61 +251,49 @@ class APNSubGroupOperationQueueTests: XCTestCase {
         subGroupQueue.addOperation(blocksC[4], withKey: keyC)
         subGroupQueue.addOperation(BlockOperation(block: blocksB[5]), withKey: keyB)
         subGroupQueue.addOperation(blocksC[5], withKey: keyC)
-        
+
         subGroupQueue.isSuspended = false
-        
+
         subGroupQueue.waitUntilAllOperationsAreFinished()
-        
+
         XCTAssert(subGroupQueue[keyA].count == 0)
         XCTAssert(subGroupQueue[keyB].count == 0)
         XCTAssert(subGroupQueue[keyC].count == 0)
-        XCTAssert(resultA.value == stringA, "\(resultA.value) didn't match expected value \(stringA)")
-        XCTAssert(resultB.value == stringB, "\(resultB.value) didn't match expected value \(stringB)")
-        XCTAssert(resultC.value == stringC, "\(resultC.value) didn't match expected value \(stringC)")
+        XCTAssert(resultA.value == valueA, "\(resultA.value) didn't match expected value \(valueA)")
+        XCTAssert(resultB.value == valueB, "\(resultB.value) didn't match expected value \(valueB)")
+        XCTAssert(resultC.value == valueC, "\(resultC.value) didn't match expected value \(valueC)")
     }
-    
+
     // MARK: - subGroupOperations
-    
+
     func testSubGroupOperations_withExistingSubGroupOperations_shouldReturnOperations() {
         let key = "key"
-        
-        let ops = stringAppendingBlockOperations(splitString("123456"), sharedBox: Box<String>(""))
-        
+
+        let ops = stringAppendingBlockOperations(for: splitString("123456"), sharedBox: Box<String>(""))
+
         subGroupQueue.isSuspended = true
-        
+
         subGroupQueue.addOperation(ops[0], withKey: key)
         XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<1]))
-        
+
         subGroupQueue.addOperation(ops[1], withKey: key)
         XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<2]))
-        
+
         subGroupQueue.addOperation(ops[2], withKey: key)
         XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == Array(ops[0..<3]))
-        
+
         subGroupQueue.addOperations(Array(ops[3...5]), withKey: key, waitUntilFinished: false)
         XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == ops)
-        
+
         XCTAssert(subGroupQueue[key].count == 6)
     }
-    
+
     func testSubGroupOperations_withNonExistingSubGroupOperations_shouldReturnEmptyArray() {
         let key = "key"
-        
+
         XCTAssert(subGroupQueue.subGroupOperations(forKey: key) == [])
         XCTAssert(subGroupQueue[key].count == 0)
     }
-    
-    // MARK: - Auxiliary
-    
-    fileprivate func splitString(_ string: String) -> [String] {
-        return string.characters.map { String($0) }
-    }
-    
-    fileprivate func stringAppendingBlocks(_ strings: [String], sharedBox: Box<String>) -> [() -> Void] {
-        return strings.map { s in return { sharedBox.value += s } }
-    }
-    
-    fileprivate func stringAppendingBlockOperations(_ strings: [String], sharedBox: Box<String>) -> [BlockOperation] {
-        return strings.map { s in BlockOperation(block: { sharedBox.value += s }) }
-    }
+
 }
+

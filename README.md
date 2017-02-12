@@ -23,7 +23,11 @@ Dependent operations are grouped into "subgroups" which are guaranteed to be pro
 ## Use
 
 ### Swift
+
+#### Single SubGroup Key type 
 ```swift
+@import APNSubGroupOperationQueue
+
 let subGroupQueue = SubGroupOperationQueue<String>()
 
 // schedule operations in subgroups "A", "B" and "C"
@@ -45,8 +49,33 @@ let bOps = subGroupQueue["B"]
 let cOps = subGroupQueue.subGroupOperations(forKey: "C")
 ```
 
+#### Multiple SubGroup Key types (must conform to `AnyHashable`)
+```swift
+@import APNSubGroupOperationQueue
+
+let dynamicSubGroupQueue = SubGroupQueue<AnyHashable> // or simply a `DynamicSubGroupOperationQueue`
+
+dynamicSubGroupQueue.addOperation(opX1, withKey: "X")
+dynamicSubGroupQueue.addOperation(opX2, withKey: "X")
+dynamicSubGroupQueue.addOperation(opX3, withKey: "X")
+
+dynamicSubGroupQueue.addOperations([opN1, opN2, opN3], withKey: 1337)
+
+let date = Date()
+dynamicSubGroupQueue.addOperation({ /* opD1 */ }, withKey: date)
+dynamicSubGroupQueue.addOperation({ /* opD2 */ }, withKey: date)
+dynamicSubGroupQueue.addOperation({ /* opD3 */ }, withKey: date)
+
+// query current subgroup's operations (a snapshot)
+let xOps = subGroupQueue["X"]
+let nOps = subGroupQueue[1337]
+let dOps = subGroupQueue.subGroupOperations(forKey: date)
+```
+
 ### Objective-C
 ```objc
+@import APNSubGroupOperationQueue;
+
 APNSubGroupOperationQueue *subGroupQueue = [APNSubGroupOperationQueue new];
 
 // schedule operations in subgroups "A", "B" and "C"
@@ -66,8 +95,8 @@ NSArray<NSOperation*> *aOps = [subGroupQueue subGroupOperationsForKey:@"A"];
 NSArray<NSOperation*> *bOps = [subGroupQueue subGroupOperationsForKey:@"B"];
 NSArray<NSOperation*> *cOps = [subGroupQueue subGroupOperationsForKey:@"C"];
 
-// Objective-C implementation allows a more dynamic usage, since keys only need to be `id<NSCopying>`
-[subGroupQueue addOperations::@[opN1, opN2, opN3] withKey:@1337 waitUntilFinished:false];
+// Objective-C uses a `DynamicSubGroupOperationQueue` which allows a more flexible usage, since keys only need to be `NSObject`'s (`AnyHashable`)
+[subGroupQueue addOperations:@[opN1, opN2, opN3] withKey:@1337 waitUntilFinished:false];
 
 NSDate *date = [NSDate date];
 [subGroupQueue addOperationWithBlock:^{ /* opD1 */ } andKey:date];
