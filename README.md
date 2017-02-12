@@ -4,6 +4,7 @@
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg)
 [![Build Status](https://travis-ci.org/p4checo/APNSubGroupOperationQueue.svg?branch=master)](https://travis-ci.org/p4checo/APNSubGroupOperationQueue)
 [![codecov.io](https://codecov.io/github/p4checo/APNSubGroupOperationQueue/coverage.svg?branch=master)](https://codecov.io/github/p4checo/APNSubGroupOperationQueue?branch=master)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/APNSubGroupOperationQueue.svg)](http://cocoadocs.org/docsets/APNSubGroupOperationQueue)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/APNSubGroupOperationQueue.svg)](https://cocoapods.org/)
 [![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
