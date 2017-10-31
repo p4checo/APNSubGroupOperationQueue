@@ -45,6 +45,7 @@ public final class DynamicSubGroupOperationQueue: OperationQueue {
      - parameter op:  The `NSOperation` to be added to the queue.
      - parameter key: The subgroup's identifier key.
      */
+    @objc
     public func addOperation(_ op: Operation, withKey key: AnyHashable) {
         addOperations(subGroups.register(op, withKey: key), waitUntilFinished: false)
     }
@@ -61,6 +62,7 @@ public final class DynamicSubGroupOperationQueue: OperationQueue {
      - parameter wait: If `true`, the current thread is blocked until all of the specified operations finish executing.
      If `false`, the operations are added to the queue and control returns immediately to the caller.
      */
+    @objc
     public func addOperations(_ ops: [Operation], withKey key: AnyHashable, waitUntilFinished wait: Bool) {
         addOperations(subGroups.register(ops, withKey: key), waitUntilFinished: wait)
     }
@@ -100,6 +102,7 @@ public final class DynamicSubGroupOperationQueue: OperationQueue {
 
      - returns: An `[NSOperation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
+    @objc
     public func subGroupOperations(forKey key: AnyHashable) -> [Operation] {
         return subGroups[key]
     }

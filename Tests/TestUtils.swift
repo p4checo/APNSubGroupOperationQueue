@@ -14,7 +14,7 @@ class Box<T> {
 }
 
 func splitString(_ string: String) -> [String] {
-    return string.characters.map { String($0) }
+    return string.map { String($0) }
 }
 
 func stringAppendingBlocks(for strings: [String], sharedBox: Box<String>) -> [() -> Void] {
