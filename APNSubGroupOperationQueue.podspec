@@ -9,6 +9,9 @@ Pod::Spec.new do |s|
     
     s.author           = { 'André Pacheco Neves' => 'p4checo + @ + gmail + . + com' }
     s.social_media_url = 'https://twitter.com/p4checo'
+
+    s.module_name   = 'APNSubGroupOperationQueue'
+    s.swift_version = '4.1'
     
     s.ios.deployment_target = '8.0'
     s.osx.deployment_target = '10.9'

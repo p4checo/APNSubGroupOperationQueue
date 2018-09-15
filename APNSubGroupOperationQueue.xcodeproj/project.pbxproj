@@ -98,7 +98,6 @@
 		0A9DEDF81CA88BFD00E81AEA /* Info-OSX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-OSX.plist"; sourceTree = "<group>"; };
 		0A9DEDF91CA88BFD00E81AEA /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		0A9DEE381CB15E7D00E81AEA /* APNSubGroupOperationQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNSubGroupOperationQueueTests.m; sourceTree = "<group>"; };
-		0AAB23031D85FCEE0056EC79 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +202,6 @@
 				0A1FE5C01CBA9C2600FFAA96 /* README.md */,
 				0A1FE5C21CBAA4F200FFAA96 /* .travis.yml */,
 				0A1FE5C11CBAA4E600FFAA96 /* Makefile */,
-				0AAB23031D85FCEE0056EC79 /* .swift-version */,
 				0A15BE5F1CBAD28C00D6E3DB /* Package.swift */,
 				0A6F1AC31CB98DE7003C74FC /* APNSubGroupOperationQueue.podspec */,
 				0A9DEDEA1CA83B7400E81AEA /* LICENSE */,

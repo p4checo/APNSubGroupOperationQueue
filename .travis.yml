@@ -1,24 +1,53 @@
-language: objective-c
+language: swift
 osx_image: xcode9
+
+before_install:
+- gem install cocoapods
+
+install: true
+
+stage: Build + Test
 env:
-  matrix:
-  - PLATFORM="iOS"
-  - PLATFORM="macOS"
-  - PLATFORM="tvOS"
-  - PLATFORM="watchOS"
+- PLATFORM="iOS"
+- PLATFORM="macOS"
+- PLATFORM="tvOS"
+- PLATFORM="watchOS"
 script:
 - make $PLATFORM
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-before_deploy:
-- carthage build --no-skip-current
-- carthage archive APNSubGroupOperationQueue
-deploy:
-  provider: releases
-  api_key:
-    secure: mi5Wd7bqvnMDaS5OqMe8P7HApAmGscDMfjJlZ4K/WJ2NiVYiNAiGAn3p7O4Tq4LtGILuAfAA/+BqdA3VvC2qd+E9XcDPc0nXGwFMAiUGxwIP3a++wTuTuN4hambN+DI1EaxWAhNIBxWeo83zF0fwtXdItyWipB4ETNskFbTqFC0hGtJfdLyxKstXTzaRFQWoQgOgu4PNpILNX8u/5dj1ErR7FYBoiAQkPsT74CVSFYjrXFVE0WkJ9qnsjex0KtaeNNb57P/QEWrX3SMMcAe1qhVuTRKwXk633ji4FyyxER/DZ7x+x+OKDN9vu4LMG9LD0LggdzId7GPvRTbxSVZvcJNuGGnmX65JvN1LmAxlwqPLwVTQYz9UFozxVt2dxsD24Sa1B2PHf9CB83giHvYLSSwGRQcwHLNYLlnEHAfG2apEPm/dFQe76Ni4WR3UNWYfOnewXBApJ36xpENPCY2xJknKfMDh43F0xQJ/Sy7NCGxLnxsdA6zMI718NHLMZ7SfutaLaOl3NBqoK4yg+XYiI5rT/4xliE5nJl+J4ZHzSM/nInLqDj0ZBMIA2ka6pIWxDHC7zAuFm1bpFAC74G40ui9SzQuAemn1kGA3JRbHvflL7lqIcnjPa3yv2EKgGXiChnJXsetorhw0/NvrlStJURgkr27dR4jRVf+k/U2NkJ4=
-  file: APNSubGroupOperationQueue.framework.zip
-  skip_cleanup: true
-  on:
-    repo: p4checo/APNSubGroupOperationQueue
-    tags: true
+
+jobs:
+  include:
+  - stage: Pod lib lint
+    script:
+    - pod repo update --silent
+    - pod lib lint --verbose
+  - stage: Deploy Github
+    script: skip
+    before_deploy:
+    - carthage build --no-skip-current --cache-builds
+    - carthage archive APNSubGroupOperationQueue
+    deploy:
+    - provider: releases
+      api_key:
+        secure: mi5Wd7bqvnMDaS5OqMe8P7HApAmGscDMfjJlZ4K/WJ2NiVYiNAiGAn3p7O4Tq4LtGILuAfAA/+BqdA3VvC2qd+E9XcDPc0nXGwFMAiUGxwIP3a++wTuTuN4hambN+DI1EaxWAhNIBxWeo83zF0fwtXdItyWipB4ETNskFbTqFC0hGtJfdLyxKstXTzaRFQWoQgOgu4PNpILNX8u/5dj1ErR7FYBoiAQkPsT74CVSFYjrXFVE0WkJ9qnsjex0KtaeNNb57P/QEWrX3SMMcAe1qhVuTRKwXk633ji4FyyxER/DZ7x+x+OKDN9vu4LMG9LD0LggdzId7GPvRTbxSVZvcJNuGGnmX65JvN1LmAxlwqPLwVTQYz9UFozxVt2dxsD24Sa1B2PHf9CB83giHvYLSSwGRQcwHLNYLlnEHAfG2apEPm/dFQe76Ni4WR3UNWYfOnewXBApJ36xpENPCY2xJknKfMDh43F0xQJ/Sy7NCGxLnxsdA6zMI718NHLMZ7SfutaLaOl3NBqoK4yg+XYiI5rT/4xliE5nJl+J4ZHzSM/nInLqDj0ZBMIA2ka6pIWxDHC7zAuFm1bpFAC74G40ui9SzQuAemn1kGA3JRbHvflL7lqIcnjPa3yv2EKgGXiChnJXsetorhw0/NvrlStJURgkr27dR4jRVf+k/U2NkJ4=
+      file: APNSubGroupOperationQueue.framework.zip
+      skip_cleanup: true
+      overwrite: true
+      on:
+        repo: p4checo/APNSubGroupOperationQueue
+        branch: master
+        tags: true
+  - stage: Deploy Cocoapods
+    script: skip
+    env:
+    - secure: vYHokeqC9lBhn2eZ9uX5Y+y7Dl+FP/+E3dav4ZYAFGYincfh6pGUnMVzszbot7rfusggaMhIIImXdnqaI6gmVGxv15hP+H6LHXq9PvSXI5+WyP5cRMi3lHuppmdZMX27/Jutx7JaxkReqmeGYz1vOpiFz0/n6/WDvPGffeHr+PVATo2UMfKGs5LvCmtjAr38yK8GhT0EMpDn06cXq0L0odELfRNA6aFWiPJ62zYeAnaDP0upd/IGqJe7/K4thkIOp6NVaJfFUhU5Zg9lgpc61m6qOpP67GIqN7AL4JvLfpMUT5Uf8AV+2BWRn1D3rC048NUE3BZYWVg1IveBBqofvaC8KlGsBIRwXZI+sreQVrPcJKsY+eB60qn1SP39BpZMsZngN6QsmPKua+Z+iVs/kxfEjMPf/X97SrJPBnkLEkmHKmLbjcSOYFgaASQnxPgQLoW7VBIrPlY0r0ond54ydCpBLbkFYUH14A/qTFOVo9o2nfSw07CrA8cQgxyZRynOUM/4glb7YwJrDRyEsyTjOECyyY/0sskndpEUuQrKZgYoZxoVdesT3nr0i/Q4hiAvfnocr3mNokg5b9ocAXxv8KPs6h1qdHy752e5lzwDsI18nBscxYiMT+inxKt8jBmzh9V63UNDtL1f3MlyVpqC18Nh+V4YH7CICxeYShZKC3g=
+    deploy:
+    - provider: script
+      script: pod trunk push
+      skip_cleanup: true
+      on:
+        repo: p4checo/APNSubGroupOperationQueue
+        branch: master
+        tags: true
