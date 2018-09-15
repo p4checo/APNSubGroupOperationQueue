@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = "APNSubGroupOperationQueue"
-    s.version      = "2.2.0"
+    s.version      = "2.3.0"
     s.summary      = "Serial processing sub groups inside your concurrent NSOperationQueue."
     s.description  = "APNSubGroupOperationQueue is a µFramework consisting of `NSOperationQueue` subclasses (Swift & Obj-C) which allow scheduling operations in serial subgroups inside a concurrent queue"
     
