@@ -1,13 +1,13 @@
 # APNSubGroupOperationQueue
 [![license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/p4checo/APNSubGroupOperationQueue/master/LICENSE)
 [![release](https://img.shields.io/github/release/p4checo/APNSubGroupOperationQueue.svg)](https://github.com/p4checo/APNSubGroupOperationQueue/releases)
-![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg)
+![platforms](https://img.shields.io/badge/platform-iOS%20%7C%20OS%20X%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg)
 [![Build Status](https://travis-ci.org/p4checo/APNSubGroupOperationQueue.svg?branch=master)](https://travis-ci.org/p4checo/APNSubGroupOperationQueue)
 [![codecov.io](https://codecov.io/github/p4checo/APNSubGroupOperationQueue/coverage.svg?branch=master)](https://codecov.io/github/p4checo/APNSubGroupOperationQueue?branch=master)
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/APNSubGroupOperationQueue.svg)](http://cocoadocs.org/docsets/APNSubGroupOperationQueue)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/APNSubGroupOperationQueue.svg)](https://cocoapods.org/)
-[![Swift 4.1](https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
 Swift & Obj-C µFramework consisting of `NSOperationQueue` subclasses which allow scheduling operations in serial subgroups inside concurrent queues.
 
@@ -103,6 +103,27 @@ NSDate *date = [NSDate date];
 [subGroupQueue addOperationWithBlock:^{ /* opD1 */ } andKey:date];
 [subGroupQueue addOperationWithBlock:^{ /* opD2 */ } andKey:date];
 ```
+## Compatibility
+
+### 3.x (current)
+
+- iOS 10.0+, macOS 10.12, tvOS 10.0+, watchOS 3.0+  
+- Xcode 10
+- Swift 4.2
+
+### 2.x 
+
+- iOS 8.0+, macOS 10.9+, tvOS 9.0+, watchOS 2.0+
+- 2.1.0
+  + Xcode 8
+  + Swift 3
+- 2.2.0
+  + Xcode 9
+  + Swift 4.0
+- 2.3.0
+  + Xcode 9.4
+  + Swift 4.1
+
 ## Integration
 
 ### CocoaPods
@@ -110,7 +131,7 @@ Add APNSubGroupOperationQueue to your `Podfile` and run `pod install`:
 
 ```ruby
 # CocoaPods
-pod 'APNSubGroupOperationQueue', '~> 2.0'
+pod 'APNSubGroupOperationQueue', '~> 3.0'
 ```
 
 ### Carthage
@@ -119,7 +140,7 @@ Add APNSubGroupOperationQueue to your `Cartfile` (package dependency) or `Cartfi
 (development dependency):
 
 ```
-github "p4checo/APNSubGroupOperationQueue" ~> 2.0
+github "p4checo/APNSubGroupOperationQueue" ~> 3.0
 ```
 
 ### Swift Package Manager
@@ -132,7 +153,7 @@ import PackageDescription
 let package = Package(
   name: "HelloWorld",
   dependencies: [
-    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 2),
+    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 3),
   ]
 )
 ```
@@ -147,7 +168,3 @@ let package = Package(
 ## Contributing
 
 See [CONTRIBUTING](https://github.com/p4checo/APNSubGroupOperationQueue/blob/master/CONTRIBUTING.md).
-
-## Future work
-
-Use a simpler (and faster) synchronization mechanism like a SpinLock when a safe one one becomes available for iOS. Sources: [[1]](http://engineering.postmates.com/Spinlocks-Considered-Harmful-On-iOS/) [[2]](https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151214/000321.html)
