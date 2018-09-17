@@ -18,7 +18,7 @@ import Foundation
  */
 final class OperationSubGroupMap<Key: Hashable> {
 
-    fileprivate let queue: DispatchQueue
+    fileprivate let lock: UnfairLock
     fileprivate var subGroups: [Key : [Operation]]
 
     /**
@@ -27,8 +27,7 @@ final class OperationSubGroupMap<Key: Hashable> {
      - returns: A new `OperationSubGroupMap` instance.
      */
     init() {
-        queue = DispatchQueue(label: "com.p4checo.\(type(of: self)).queue",
-                              attributes: DispatchQueue.Attributes.concurrent)
+        lock = UnfairLock()
         subGroups = [:]
     }
 
@@ -85,22 +84,22 @@ final class OperationSubGroupMap<Key: Hashable> {
      which *must* all be added to the `OperationQueue`.
      */
     func register(_ ops: [Operation], withKey key: Key) -> [Operation] {
+        lock.lock()
+        defer { lock.unlock() }
+
         var newOps = [Operation]()
+        var subGroup = subGroups[key] ?? []
 
-        queue.sync(flags: .barrier, execute: { [unowned self] in
-            var subGroup = self.subGroups[key] ?? []
+        ops.forEach { op in
+            let completionOp = createCompletionOperation(for: op, withKey: key)
+            setupDependencies(for: op, completionOp: completionOp, subGroup: subGroup)
 
-            ops.forEach { op in
-                let completionOp = self.createCompletionOperation(forOperation: op, withKey: key)
-                self.setupDependencies(forOperation: op, completionOp: completionOp, subGroup: subGroup)
+            let opPair = [op, completionOp]
+            newOps.append(contentsOf: opPair)
+            subGroup.append(contentsOf: opPair)
+        }
 
-                let opPair = [op, completionOp]
-                newOps.append(contentsOf: opPair)
-                subGroup.append(contentsOf: opPair)
-            }
-
-            self.subGroups[key] = subGroup
-        })
+        subGroups[key] = subGroup
 
         return newOps
     }
@@ -126,20 +125,15 @@ final class OperationSubGroupMap<Key: Hashable> {
      - returns: An `[Operation]` containing a snapshot of all currently scheduled (non-finished) subgroup operations.
      */
     public func operations(forKey key: Key) -> [Operation] {
-        var ops: [Operation]?
+        lock.lock()
+        defer { lock.unlock() }
 
-        queue.sync { [unowned self] in
-            ops = self.subGroups[key]?.filter{ !($0 is CompletionOperation) }
-        }
-
-        return ops ?? []
+        return subGroups[key]?.filter { !($0 is CompletionOperation) } ?? []
     }
 
     // MARK: - Private
 
-    fileprivate func setupDependencies(forOperation op: Operation,
-                                       completionOp: CompletionOperation,
-                                       subGroup: [Operation]) {
+    private func setupDependencies(for op: Operation, completionOp: CompletionOperation, subGroup: [Operation]) {
         completionOp.addDependency(op)
 
         // new operations only need to depend on the group's last operation
@@ -148,32 +142,31 @@ final class OperationSubGroupMap<Key: Hashable> {
         }
     }
 
-    fileprivate func createCompletionOperation(forOperation op: Operation, withKey key: Key) -> CompletionOperation {
+    private func createCompletionOperation(for op: Operation, withKey key: Key) -> CompletionOperation {
         let completionOp = CompletionOperation()
 
-        completionOp.addExecutionBlock({ [unowned self, weak weakCompletionOp = completionOp] in
-            self.queue.sync(flags: .barrier, execute: { [unowned self] in
-                guard let completionOp = weakCompletionOp else {
-                    assertionFailure("💥: The completion operation must not be nil")
-                    return
-                }
+        completionOp.addExecutionBlock { [unowned self, weak weakCompletionOp = completionOp] in
+            self.lock.lock()
+            defer { self.lock.unlock() }
 
-                guard var subGroup = self.subGroups[key] else {
-                    assertionFailure("💥: A group must exist in the dicionary for the finished operation's key!")
-                    return
-                }
+            guard let completionOp = weakCompletionOp else {
+                assertionFailure("💥: The completion operation must not be nil")
+                return
+            }
 
-                guard [op, completionOp] == subGroup[0...1] else {
-                    assertionFailure("💥: op and completionOp must be the first 2 elements in the subgroup's array")
-                    return
-                }
-                
-                self.subGroups[key] = subGroup.count == 2 ? nil : {
-                    subGroup.removeFirst(2)
-                    return subGroup
-                    }()
-            })
-        })
+            guard var subGroup = self.subGroups[key] else {
+                assertionFailure("💥: A group must exist in the dicionary for the finished operation's key!")
+                return
+            }
+
+            assert([op, completionOp] == subGroup[0...1],
+                   "💥: op and completionOp must be the first 2 elements in the subgroup's array")
+
+            self.subGroups[key] = subGroup.count == 2 ? nil : {
+                subGroup.removeFirst(2)
+                return subGroup
+                }()
+        }
         
         return completionOp
     }

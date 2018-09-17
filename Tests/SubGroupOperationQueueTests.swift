@@ -21,6 +21,8 @@ class SubGroupOperationQueueTestsTests: XCTestCase  {
     }
 
     override func tearDown() {
+        subGroupQueue = nil
+
         super.tearDown()
     }
 
