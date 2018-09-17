@@ -1,8 +1,8 @@
 language: swift
-osx_image: xcode9
+osx_image: xcode10
 
 before_install:
-- gem install cocoapods
+- gem install cocoapods --pre
 
 install: true
 
@@ -21,7 +21,6 @@ jobs:
   include:
   - stage: Pod lib lint
     script:
-    - pod repo update --silent
     - pod lib lint --verbose
   - stage: Deploy Github
     script: skip
