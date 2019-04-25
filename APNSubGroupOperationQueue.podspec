@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.social_media_url = 'https://twitter.com/p4checo'
 
     s.module_name   = 'APNSubGroupOperationQueue'
-    s.swift_version = '4.2'
+    s.swift_version = '5.0'
     
     s.ios.deployment_target = '10.0'
     s.osx.deployment_target = '10.12'
