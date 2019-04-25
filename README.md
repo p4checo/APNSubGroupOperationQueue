@@ -50,7 +50,7 @@ let bOps = subGroupQueue["B"]
 let cOps = subGroupQueue.subGroupOperations(forKey: "C")
 ```
 
-#### Multiple SubGroup Key types (must conform to `AnyHashable`)
+#### Multiple SubGroup Key types (via `AnyHashable`)
 ```swift
 @import APNSubGroupOperationQueue
 
@@ -105,7 +105,13 @@ NSDate *date = [NSDate date];
 ```
 ## Compatibility
 
-### 3.x (current)
+### 4.x (current)
+
+- iOS 10.0+, macOS 10.12, tvOS 10.0+, watchOS 3.0+  
+- Xcode 10.2+
+- Swift 5.0
+
+### 3.x
 
 - iOS 10.0+, macOS 10.12, tvOS 10.0+, watchOS 3.0+  
 - Xcode 10
@@ -114,15 +120,16 @@ NSDate *date = [NSDate date];
 ### 2.x 
 
 - iOS 8.0+, macOS 10.9+, tvOS 9.0+, watchOS 2.0+
-- 2.1.0
-  + Xcode 8
-  + Swift 3
-- 2.2.0
-  + Xcode 9
-  + Swift 4.0
 - 2.3.0
   + Xcode 9.4
   + Swift 4.1
+- 2.2.0
+  + Xcode 9
+  + Swift 4.0
+- 2.1.0
+  + Xcode 8
+  + Swift 3
+
 
 ## Integration
 
@@ -131,7 +138,7 @@ Add APNSubGroupOperationQueue to your `Podfile` and run `pod install`:
 
 ```ruby
 # CocoaPods
-pod 'APNSubGroupOperationQueue', '~> 3.0'
+pod 'APNSubGroupOperationQueue', '~> 4.0'
 ```
 
 ### Carthage
@@ -140,7 +147,7 @@ Add APNSubGroupOperationQueue to your `Cartfile` (package dependency) or `Cartfi
 (development dependency):
 
 ```
-github "p4checo/APNSubGroupOperationQueue" ~> 3.0
+github "p4checo/APNSubGroupOperationQueue" ~> 4.0
 ```
 
 ### Swift Package Manager
@@ -153,7 +160,7 @@ import PackageDescription
 let package = Package(
   name: "HelloWorld",
   dependencies: [
-    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 3),
+    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 4),
   ]
 )
 ```
