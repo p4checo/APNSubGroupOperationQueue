@@ -105,28 +105,28 @@ NSDate *date = [NSDate date];
 ```
 ## Compatibility
 
-### 4.x (current)
+### `4.x` (current)
 
 - iOS 10.0+, macOS 10.12, tvOS 10.0+, watchOS 3.0+  
 - Xcode 10.2+
 - Swift 5.0
 
-### 3.x
+### `3.x`
 
 - iOS 10.0+, macOS 10.12, tvOS 10.0+, watchOS 3.0+  
 - Xcode 10
 - Swift 4.2
 
-### 2.x 
+### `2.x`
 
 - iOS 8.0+, macOS 10.9+, tvOS 9.0+, watchOS 2.0+
-- 2.3.0
+- `2.3.0`
   + Xcode 9.4
   + Swift 4.1
-- 2.2.0
+- `2.2.0`
   + Xcode 9
   + Swift 4.0
-- 2.1.0
+- `2.1.0`
   + Xcode 8
   + Swift 3
 
@@ -160,7 +160,7 @@ import PackageDescription
 let package = Package(
   name: "HelloWorld",
   dependencies: [
-    .Package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", majorVersion: 4),
+    .package(url: "https://github.com/p4checo/APNSubGroupOperationQueue.git", from: "4.0.0"),
   ]
 )
 ```
